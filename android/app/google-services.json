@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "637262004518",
+    "firebase_url": "https://ro-service-3b1f2.firebaseio.com",
+    "project_id": "ro-service-3b1f2",
+    "storage_bucket": "ro-service-3b1f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637262004518:android:827d94f1f92733a3fac1e7",
+        "android_client_info": {
+          "package_name": "com.roapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637262004518-8fpn9c0qcrpjgc9fh14qh2rhlu4muptf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "637262004518-pdfmmri5q4fhc3k8q9cfectulsincp4f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBQdEBQ3IugFOiif6c2lpqQFtfaBnc8ng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637262004518-pdfmmri5q4fhc3k8q9cfectulsincp4f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
