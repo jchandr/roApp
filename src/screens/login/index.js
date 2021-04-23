@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component } from 'react';
-import { SafeAreaView, View, Image, TextInput } from 'react-native';
+import { SafeAreaView, View, Image, TextInput, Button } from 'react-native';
 
 import styles from '../../styles/screens/login/index';
 
@@ -22,10 +22,23 @@ class LoginScreen extends Component {
         </View>
         <View style={[{ flex: 5 }, styles.content]}>
           <TextInput
-            style={styles.emailTextInput}
+            style={styles.textInput}
             placeholder="email"
             placeholderTextColor="gray"
           />
+          <TextInput
+            style={styles.textInput}
+            placeholder="password"
+            placeholderTextColor="gray"
+            secureTextEntry
+          />
+          <View>
+            <Button title="Login" />
+          </View>
+          <View style={styles.horizontalDivider} />
+          <View>
+            <Button title="Register" />
+          </View>
         </View>
       </SafeAreaView>
     );

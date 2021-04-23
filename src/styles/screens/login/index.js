@@ -14,9 +14,11 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
   },
-  emailTextInput: {
+  textInput: {
     borderWidth: 1,
     color: 'black',
+    paddingLeft: 10,
+    marginBottom: 10,
   },
 });
 
