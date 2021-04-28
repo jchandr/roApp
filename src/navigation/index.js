@@ -19,7 +19,6 @@ export default function AuthNavigator() {
 
   useEffect(() => {
     const authSubscriber = auth().onAuthStateChanged(onAuthStateChanged);
-
     // unsubscribe on unmount
     return authSubscriber;
   });

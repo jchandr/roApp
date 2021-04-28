@@ -59,6 +59,7 @@ class LoginScreen extends Component {
             placeholderTextColor="gray"
             secureTextEntry
             value={password}
+            onChangeText={this.handlePasswordInput}
           />
           <View>
             <Button title="Login" onPress={this.handleLoginButtonPress} />
