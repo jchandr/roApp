@@ -9,6 +9,7 @@ const AppDrawerNavigator = user => {
   return (
     <AppDrawer.Navigator
       initialRouteName="Home"
+      overlayColor="#ebedf0"
       drawerContent={props => <CustomDrawer {...props} />}>
       <AppDrawer.Screen name="Home" component={Home} />
     </AppDrawer.Navigator>

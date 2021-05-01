@@ -4,7 +4,7 @@ import rootStyles from '../../index';
 const styles = StyleSheet.create({
   ...rootStyles,
   logoutButton: {
-    backgroundColor: '#B178FF',
+    backgroundColor: '#04009A',
   },
   customDrawerItemWrapper: {
     padding: 5,

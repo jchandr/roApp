@@ -9,7 +9,10 @@ const AppStackNavigator = user => {
   return (
     <NavigationContainer>
       <AppStack.Navigator headerMode="none">
-        <AppStack.Screen name="Home" component={AppDrawerNavigator} />
+        <AppStack.Screen
+          name="Home"
+          children={() => <AppDrawerNavigator user={user} />}
+        />
       </AppStack.Navigator>
     </NavigationContainer>
   );
