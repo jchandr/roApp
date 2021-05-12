@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import AuthContext from '../../auth/index';
-import { isUserAdmin } from '../../database/methods';
 
-class Home extends Component {
+class Dashboard extends Component {
   static contextType = AuthContext;
 
   constructor(props) {
@@ -14,15 +13,14 @@ class Home extends Component {
   componentDidMount() {}
 
   render() {
-    const user = this.context;
     return (
       <SafeAreaView>
         <View>
-          <Text>LOGGED IN {user.email}</Text>
+          <Text>You see this because you are admin</Text>
         </View>
       </SafeAreaView>
     );
   }
 }
 
-export default Home;
+export default Dashboard;
