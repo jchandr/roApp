@@ -29,9 +29,9 @@ class AppStackNavigator extends Component {
       <NavigationContainer>
         <AppStack.Navigator headerMode="none">
           <AppStack.Screen
-            name="Home"
+            name="Drawer"
             children={() => (
-              <AppDrawerNavigator isAdmin={isAdmin} user={user} />
+              <AppDrawerNavigator headerMode isAdmin={isAdmin} user={user} />
             )}
           />
         </AppStack.Navigator>
