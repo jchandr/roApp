@@ -18,12 +18,13 @@ export const isUserAdmin = async function (userEmail) {
   });
 };
 
-export const getCustomers = (pageSize, startFrom = 0) => {
+export const getCustomers = (pageSize, startFrom = '') => {
   return new Promise(function (resolve, reject) {
     database()
       .ref('/customer/details/')
-      .orderByValue()
+      .orderByChild('entryDate')
       .limitToFirst(pageSize)
+      .startAt(startFrom)
       .on('value', snapshot => {
         return resolve(snapshot.val());
       });
