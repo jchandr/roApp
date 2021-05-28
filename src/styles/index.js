@@ -1,4 +1,7 @@
 const styles = {
+  flexContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     flexDirection: 'row',

@@ -36,7 +36,6 @@ export const getCustomerById = id => {
     database()
       .ref(`/customer/details/${id}`)
       .on('value', snapshot => {
-        console.log(snapshot.val());
         return resolve(snapshot.val());
       });
   });
