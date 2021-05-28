@@ -30,3 +30,14 @@ export const getCustomers = (pageSize, startFrom = '') => {
       });
   });
 };
+
+export const getCustomerById = id => {
+  return new Promise(function (resolve, reject) {
+    database()
+      .ref(`/customer/details/${id}`)
+      .on('value', snapshot => {
+        console.log(snapshot.val());
+        return resolve(snapshot.val());
+      });
+  });
+};

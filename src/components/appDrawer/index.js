@@ -38,7 +38,7 @@ class CustomDrawer extends Component {
         <DrawerItemList {...this.props} />
         <DrawerItem
           style={styles.logoutButton}
-          label="Logout"
+          label={() => <Text style={styles.logoutButtonLabelText}>Logout</Text>}
           onPress={() => this._handleUserSignOutClick()}
         />
       </DrawerContentScrollView>

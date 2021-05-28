@@ -29,14 +29,16 @@ class Home extends Component {
     };
 
     this.setDatatableData = this.setDatatableData.bind(this);
-    this.handleDataTablePaginationControl = this.handleDataTablePaginationControl.bind(
-      this,
-    );
     this.isCloseToBottom = this.isCloseToBottom.bind(this);
+    // this.handleDataTableItemClick = this.handleDataTableItemClick.bind(this);
   }
 
   componentDidMount() {
     this.setDatatableData();
+  }
+
+  handleDataTableItemClick(id) {
+    this.props.navigation.navigate('Contact Show', { id: id });
   }
 
   setDatatableData() {
@@ -56,8 +58,6 @@ class Home extends Component {
       });
     });
   }
-
-  handleDataTablePaginationControl() {}
 
   isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
     const paddingToBottom = 20;
@@ -95,7 +95,9 @@ class Home extends Component {
               }>
               {customerData.map((data, i) => {
                 return (
-                  <DataTable.Row key={i}>
+                  <DataTable.Row
+                    key={i}
+                    onPress={() => this.handleDataTableItemClick(data.id)}>
                     <DataTable.Cell>{data.fullName}</DataTable.Cell>
                     <DataTable.Cell>{data.model}</DataTable.Cell>
                     <DataTable.Cell>{data.mobile}</DataTable.Cell>
@@ -106,16 +108,6 @@ class Home extends Component {
             </ScrollView>
           </DataTable>
         </View>
-        {/* <View>
-          <DataTable.Pagination
-            page={1}
-            onPageChange={page => {
-              console.log(page);
-              this.handleDataTablePaginationControl(page);
-            }}
-            label={'Paging Label'}
-          />
-        </View> */}
       </SafeAreaView>
     );
   }

@@ -5,6 +5,7 @@ import Home from '../screens/home/index';
 import Dashboard from '../screens/dashboard/index';
 import CustomDrawer from '../components/appDrawer/index';
 
+
 const AppDrawer = createDrawerNavigator();
 const AppDrawerNavigator = ({ isAdmin }) => {
   if (isAdmin) {

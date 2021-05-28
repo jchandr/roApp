@@ -5,6 +5,8 @@ import { isUserAdmin } from '../database/methods';
 
 import AppDrawerNavigator from './appDrawer';
 
+import ContactShow from '../screens/home/contactShow';
+
 class AppStackNavigator extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +36,7 @@ class AppStackNavigator extends Component {
               <AppDrawerNavigator headerMode isAdmin={isAdmin} user={user} />
             )}
           />
+          <AppStack.Screen name="Contact Show" component={ContactShow} />
         </AppStack.Navigator>
       </NavigationContainer>
     );

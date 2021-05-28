@@ -6,6 +6,9 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: '#04009A',
   },
+  logoutButtonLabelText: {
+    color: '#ffffff',
+  },
   customDrawerItemWrapper: {
     padding: 5,
   },
