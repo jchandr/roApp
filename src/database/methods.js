@@ -40,3 +40,12 @@ export const getCustomerById = id => {
       });
   });
 };
+
+export const updateCustomerInfo = (documentId, data) => {
+  return new Promise(function (resolve, reject) {
+    database()
+      .ref(`/customer/details/${documentId}`)
+      .update(data)
+      .then(() => resolve());
+  });
+};
