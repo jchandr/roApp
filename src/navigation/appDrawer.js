@@ -1,10 +1,10 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import Home from '../screens/home/index';
 import Dashboard from '../screens/dashboard/index';
 import CustomDrawer from '../components/appDrawer/index';
 
+import HomeTopTabNavigator from './homeTopBarNavigator';
 
 const AppDrawer = createDrawerNavigator();
 const AppDrawerNavigator = ({ isAdmin }) => {
@@ -14,7 +14,7 @@ const AppDrawerNavigator = ({ isAdmin }) => {
         initialRouteName="Home"
         overlayColor="#ebedf0"
         drawerContent={props => <CustomDrawer {...props} />}>
-        <AppDrawer.Screen name="Home" component={Home} />
+        <AppDrawer.Screen name="Home" component={HomeTopTabNavigator} />
         <AppDrawer.Screen name="Dashboard" component={Dashboard} />
       </AppDrawer.Navigator>
     );
@@ -24,7 +24,7 @@ const AppDrawerNavigator = ({ isAdmin }) => {
         initialRouteName="Home"
         overlayColor="#ebedf0"
         drawerContent={props => <CustomDrawer {...props} />}>
-        <AppDrawer.Screen name="Home" component={Home} />
+        <AppDrawer.Screen name="Home" component={HomeTopTabNavigator} />
       </AppDrawer.Navigator>
     );
   }

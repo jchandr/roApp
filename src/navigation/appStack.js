@@ -5,7 +5,8 @@ import { isUserAdmin } from '../database/methods';
 
 import AppDrawerNavigator from './appDrawer';
 
-import ContactShow from '../screens/home/contactShow';
+import ContactShow from '../screens/customers/show';
+import CustomerIndex from '../screens/customers/index';
 
 class AppStackNavigator extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class AppStackNavigator extends Component {
             )}
           />
           <AppStack.Screen name="Contact Show" component={ContactShow} />
+          <AppStack.Screen name="Customer Index" component={CustomerIndex} />
         </AppStack.Navigator>
       </NavigationContainer>
     );

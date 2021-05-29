@@ -1,102 +1,64 @@
 import React, { Component } from 'react';
-import { SafeAreaView, View, ScrollView, RefreshControl } from 'react-native';
-import { DataTable } from 'react-native-paper';
+import { SafeAreaView, View, Text } from 'react-native';
+import { Card } from 'react-native-paper';
 
-import AuthContext from '../../auth/index';
-import { getCustomers } from '../../database/methods';
+import AdsShowcase from '../../components/adsShowcase/index';
 
 import styles from '../../styles/screens/home/index';
 
 class Home extends Component {
-  static contextType = AuthContext;
-
   constructor(props) {
     super(props);
     this.state = {
-      user: this.context,
-      customerData: [],
-      isRefreshing: false,
+      cards: [
+        {
+          label: 'Customers',
+          routeName: 'Customer Index',
+        },
+        {
+          label: 'Customers1',
+          routeName: 'Customer Index',
+        },
+        {
+          label: 'Customers2',
+          routeName: 'Customer Index',
+        },
+        {
+          label: 'Customers3',
+          routeName: 'Customer Index',
+        },
+      ],
     };
-
-    this.setDatatableData = this.setDatatableData.bind(this);
-    this.isCloseToBottom = this.isCloseToBottom.bind(this);
-    this.handleDataTableItemClick = this.handleDataTableItemClick.bind(this);
+    this.handleCardItemPress = this.handleCardItemPress.bind(this);
   }
 
-  componentDidMount() {
-    this.setDatatableData();
-  }
+  componentDidMount() {}
 
-  handleDataTableItemClick(id) {
-    this.props.navigation.navigate('Contact Show', { id: id });
-  }
-
-  setDatatableData() {
-    this.setState({
-      isRefreshing: true,
-    });
-    var tempDataTableValues = [];
-
-    getCustomers(25, 1).then(val => {
-      for (var [id, entry] of Object.entries(val)) {
-        entry.id = id;
-        tempDataTableValues.push(entry);
-      }
-      this.setState({
-        customerData: tempDataTableValues,
-        isRefreshing: false,
-      });
-    });
-  }
-
-  isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
-    const paddingToBottom = 20;
-    return (
-      layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom
-    );
+  handleCardItemPress(card) {
+    this.props.navigation.navigate(card.routeName);
   }
 
   render() {
-    const { customerData, isRefreshing } = this.state;
-
+    const { cards } = this.state;
     return (
       <SafeAreaView style={styles.flexContainer}>
-        <View style={styles.flexContainer}>
-          <DataTable style={styles.flexContainer}>
-            <DataTable.Header>
-              <DataTable.Title style={styles.nameField}>Name</DataTable.Title>
-              <DataTable.Title>Mobile</DataTable.Title>
-              <DataTable.Title>Entry Date</DataTable.Title>
-            </DataTable.Header>
-            <ScrollView
-              onScroll={({ nativeEvent }) => {
-                if (this.isCloseToBottom(nativeEvent)) {
-                  console.log('hi');
-                }
-              }}
-              scrollEventThrottle={400}
-              refreshControl={
-                <RefreshControl
-                  refreshing={isRefreshing}
-                  onRefresh={() => this.setDatatableData()}
-                />
-              }>
-              {customerData.map((data, i) => {
-                return (
-                  <DataTable.Row
-                    key={i}
-                    onPress={() => this.handleDataTableItemClick(data.id)}>
-                    <DataTable.Cell style={styles.nameField}>
-                      {data.fullName}
-                    </DataTable.Cell>
-                    <DataTable.Cell>{data.mobile}</DataTable.Cell>
-                    <DataTable.Cell>{data.entryDate}</DataTable.Cell>
-                  </DataTable.Row>
-                );
-              })}
-            </ScrollView>
-          </DataTable>
+        <View>
+          <AdsShowcase />
+        </View>
+        <View style={[styles.container]}>
+          {cards.map((card, i) => {
+            return (
+              <Card
+                key={i}
+                elevation={5}
+                style={styles.cardItem}
+                onPress={() => this.handleCardItemPress(card)}>
+                <Card.Content>
+                  <Text>{card.label}</Text>
+                </Card.Content>
+              </Card>
+            );
+          })}
         </View>
       </SafeAreaView>
     );

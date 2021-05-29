@@ -3,7 +3,7 @@ import { View, ScrollView, RefreshControl, SafeAreaView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 
 import AuthContext from '../../auth/index';
-import styles from '../../styles/screens/home/contactShow';
+import styles from '../../styles/screens/customers/show';
 import { getCustomerById, updateCustomerInfo } from '../../database/methods';
 
 class ContactShow extends Component {
@@ -86,6 +86,7 @@ class ContactShow extends Component {
       this.setState({
         customerData: data,
         isRefreshing: false,
+        isCustomerDataInvalidated: false,
       });
     });
   }
