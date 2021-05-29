@@ -16,15 +16,11 @@ class Home extends Component {
           routeName: 'Customer Index',
         },
         {
-          label: 'Customers1',
+          label: 'Todays Services',
           routeName: 'Customer Index',
         },
         {
-          label: 'Customers2',
-          routeName: 'Customer Index',
-        },
-        {
-          label: 'Customers3',
+          label: 'Closed Services',
           routeName: 'Customer Index',
         },
       ],
@@ -45,15 +41,15 @@ class Home extends Component {
         <View>
           <AdsShowcase />
         </View>
-        <View style={[styles.container]}>
+        <View style={styles.cardsWrapper}>
           {cards.map((card, i) => {
             return (
               <Card
                 key={i}
-                elevation={5}
+                elevation={10}
                 style={styles.cardItem}
                 onPress={() => this.handleCardItemPress(card)}>
-                <Card.Content>
+                <Card.Content style={styles.cardItemContent}>
                   <Text>{card.label}</Text>
                 </Card.Content>
               </Card>

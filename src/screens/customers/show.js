@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, RefreshControl, SafeAreaView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import AuthContext from '../../auth/index';
 import styles from '../../styles/screens/customers/show';
@@ -37,6 +38,7 @@ class ContactShow extends Component {
         serviceType: '',
       },
       isCustomerDataInvalidated: false,
+      datePickerValue: new Date(),
     };
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
@@ -96,9 +98,17 @@ class ContactShow extends Component {
       customerData,
       isRefreshing,
       isCustomerDataInvalidated,
+      datePickerValue,
     } = this.state;
     return (
       <SafeAreaView style={styles.flexContainer}>
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={datePickerValue}
+          mode="date"
+          display="default"
+          // onChange={onChange}
+        />
         <ScrollView
           refreshControl={
             <RefreshControl

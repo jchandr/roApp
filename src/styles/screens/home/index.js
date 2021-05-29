@@ -3,10 +3,26 @@ import rootStyles from '../../index';
 
 const styles = StyleSheet.create({
   ...rootStyles,
+  cardsWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'flex-start',
+  },
   cardItem: {
-    flex: 1,
     height: 100,
-    margin: 2,
+    width: 100,
+    margin: 5,
+    display: 'flex',
+    flexGrow: 1,
+  },
+  cardItemContent: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
