@@ -54,22 +54,27 @@ class ContactShow extends Component {
   }
 
   handleDatePickerChange(val) {
+    const {
+      nativeEvent: { timestamp },
+    } = val;
+    var { customerData, datePickerFieldName } = this.state;
+    var thisDate = timestamp.toISOString().slice(0, 10);
+    customerData[`${datePickerFieldName}`] = thisDate;
     this.setState({
       isDatePickerVisible: false,
+      customerData: customerData,
+      isCustomerDataInvalidated: true,
     });
   }
 
   openDatePicker(fieldName) {
     const { customerData } = this.state;
-
     var thisDate = customerData[`${fieldName}`];
-    thisDate = Number(
-      `${thisDate.slice(0, 4)}${thisDate.slice(5, 2)}${thisDate.slice(8, 2)}`,
-    );
-    console.log(thisDate);
+    thisDate = new Date(Date.parse(thisDate));
     this.setState({
       isDatePickerVisible: true,
       datePickerFieldName: fieldName,
+      datePickerValue: thisDate,
     });
   }
 
@@ -326,6 +331,7 @@ class ContactShow extends Component {
               label="Entry Date"
               style={styles.textInput}
               value={String(customerData.entryDate)}
+              onFocus={() => this.openDatePicker('entryDate')}
             />
             <TextInput
               mode="outlined"
