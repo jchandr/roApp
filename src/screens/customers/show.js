@@ -39,14 +39,38 @@ class ContactShow extends Component {
       },
       isCustomerDataInvalidated: false,
       datePickerValue: new Date(),
+      datePickerFieldName: '',
+      isDatePickerVisible: false,
     };
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
     this.handleUpdateButtonClick = this.handleUpdateButtonClick.bind(this);
+    this.openDatePicker = this.openDatePicker.bind(this);
+    this.handleDatePickerChange = this.handleDatePickerChange.bind(this);
   }
 
   componentDidMount() {
     this.getData();
+  }
+
+  handleDatePickerChange(val) {
+    this.setState({
+      isDatePickerVisible: false,
+    });
+  }
+
+  openDatePicker(fieldName) {
+    const { customerData } = this.state;
+
+    var thisDate = customerData[`${fieldName}`];
+    thisDate = Number(
+      `${thisDate.slice(0, 4)}${thisDate.slice(5, 2)}${thisDate.slice(8, 2)}`,
+    );
+    console.log(thisDate);
+    this.setState({
+      isDatePickerVisible: true,
+      datePickerFieldName: fieldName,
+    });
   }
 
   handleUpdateButtonClick() {
@@ -99,16 +123,18 @@ class ContactShow extends Component {
       isRefreshing,
       isCustomerDataInvalidated,
       datePickerValue,
+      isDatePickerVisible,
     } = this.state;
     return (
       <SafeAreaView style={styles.flexContainer}>
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={datePickerValue}
-          mode="date"
-          display="default"
-          // onChange={onChange}
-        />
+        {isDatePickerVisible && (
+          <DateTimePicker
+            value={datePickerValue}
+            mode="date"
+            display="default"
+            onChange={this.handleDatePickerChange}
+          />
+        )}
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -221,9 +247,7 @@ class ContactShow extends Component {
               label="Installation Date"
               style={styles.textInput}
               value={String(customerData.installationDate)}
-              onChangeText={text =>
-                this.handleTextInputChange(text, 'installationDate')
-              }
+              onFocus={() => this.openDatePicker('installationDate')}
             />
           </View>
           <View style={[styles.container]}>
@@ -301,9 +325,6 @@ class ContactShow extends Component {
               mode="outlined"
               label="Entry Date"
               style={styles.textInput}
-              onChangeText={text =>
-                this.handleTextInputChange(text, 'entryDate')
-              }
               value={String(customerData.entryDate)}
             />
             <TextInput
