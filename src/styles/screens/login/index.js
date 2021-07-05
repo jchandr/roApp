@@ -5,10 +5,10 @@ const styles = StyleSheet.create({
   ...rootStyles,
   logoWrapper: {
     justifyContent: 'center',
+    width: '100%',
   },
   logo: {
-    height: 160,
-    width: 160,
+    width: 300,
     alignSelf: 'center',
   },
   content: {

@@ -42,7 +42,7 @@ class LoginScreen extends Component {
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
         <View style={{ flex: 2 }}>
           <View style={[styles.container, styles.logoWrapper]}>
-            <Image style={styles.logo} source={logo} />
+            <Image resizeMode="contain" style={styles.logo} source={logo} />
           </View>
         </View>
         <View style={[{ flex: 5 }, styles.content]}>
