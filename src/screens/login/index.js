@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { SafeAreaView, View, Image, TextInput, Button } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
+import Loading from '../../components/loading/index';
+
 import styles from '../../styles/screens/login/index';
 
 import logo from '../../assets/images/logo.png';
@@ -13,6 +15,7 @@ class LoginScreen extends Component {
     this.state = {
       email: 'bajji93@gmail.com',
       password: 'myno9940',
+      isLoading: true,
     };
 
     this.handleLoginButtonPress = this.handleLoginButtonPress.bind(this);
@@ -37,9 +40,10 @@ class LoginScreen extends Component {
   }
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, isLoading } = this.state;
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
+        <Loading isLoading={isLoading} />
         <View style={{ flex: 2 }}>
           <View style={[styles.container, styles.logoWrapper]}>
             <Image resizeMode="contain" style={styles.logo} source={logo} />
@@ -61,13 +65,9 @@ class LoginScreen extends Component {
             value={password}
             onChangeText={this.handlePasswordInput}
           />
-          <View>
-            <Button title="Login" onPress={this.handleLoginButtonPress} />
-          </View>
+          <Button title="Login" onPress={this.handleLoginButtonPress} />
           <View style={styles.horizontalDivider} />
-          <View>
-            <Button title="Register" />
-          </View>
+          <Button title="Register" />
         </View>
       </SafeAreaView>
     );
