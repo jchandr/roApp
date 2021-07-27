@@ -35,7 +35,11 @@ class CustomDrawer extends Component {
             <Text style={styles.userProfileDrawerItemEmail}>{user.email}</Text>
           </View>
         </View>
-        <DrawerItemList {...this.props} />
+        <DrawerItemList
+          activeBackgroundColor="#ffcdbe"
+          labelStyle={{ color: 'black' }}
+          {...this.props}
+        />
         <DrawerItem
           style={styles.logoutButton}
           label={() => <Text style={styles.logoutButtonLabelText}>Logout</Text>}

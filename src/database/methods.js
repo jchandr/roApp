@@ -31,6 +31,16 @@ export const getCustomers = (pageSize, startFrom = '') => {
   });
 };
 
+export const getAds = () => {
+  return new Promise(function (resolve, reject) {
+    database()
+      .ref('/ads/')
+      .on('value', snapshot => {
+        return resolve(snapshot.val());
+      });
+  });
+};
+
 export const getCustomerById = id => {
   return new Promise(function (resolve, reject) {
     database()

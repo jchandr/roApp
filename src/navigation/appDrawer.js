@@ -12,7 +12,8 @@ const AppDrawerNavigator = ({ isAdmin }) => {
     return (
       <AppDrawer.Navigator
         initialRouteName="Home"
-        overlayColor="#ebedf0"
+        overlayColor="grey"
+        activeTintColor="#ffcdbe"
         drawerContent={props => <CustomDrawer {...props} />}>
         <AppDrawer.Screen name="Home" component={HomeTopTabNavigator} />
         <AppDrawer.Screen name="Dashboard" component={Dashboard} />
@@ -22,7 +23,8 @@ const AppDrawerNavigator = ({ isAdmin }) => {
     return (
       <AppDrawer.Navigator
         initialRouteName="Home"
-        overlayColor="#ebedf0"
+        overlayColor="grey"
+        activeTintColor="#ffcdbe"
         drawerContent={props => <CustomDrawer {...props} />}>
         <AppDrawer.Screen name="Home" component={HomeTopTabNavigator} />
       </AppDrawer.Navigator>

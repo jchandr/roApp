@@ -16,6 +16,10 @@ const styles = {
     width: '100%',
     backgroundColor: 'black',
   },
+  justifyAlignCenter: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 };
 
 export default styles;

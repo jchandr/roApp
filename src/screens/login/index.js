@@ -43,7 +43,7 @@ class LoginScreen extends Component {
     const { email, password, isLoading } = this.state;
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
-        <Loading isLoading={isLoading} />
+        {/* <Loading isLoading={isLoading} /> */}
         <View style={{ flex: 2 }}>
           <View style={[styles.container, styles.logoWrapper]}>
             <Image resizeMode="contain" style={styles.logo} source={logo} />

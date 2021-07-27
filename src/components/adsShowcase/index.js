@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -8,46 +8,71 @@ import {
   Image,
 } from 'react-native';
 
+import { getAds } from '../../database/methods';
+
 class AdsShowcase extends Component {
   constructor(props) {
     super(props);
+    this.adsFlatListRef = React.createRef();
     this.state = {
-      advertisementImages: [
-        {
-          coverImageUrl:
-            'https://i.pinimg.com/originals/bf/5f/a1/bf5fa1e612d2c8c9b5861aba6d1e1748.jpg',
-          adUrl: '',
-        },
-        {
-          coverImageUrl:
-            'https://sixads.net/wp-content/uploads/2021/03/best-advertisement-examples-social.png',
-          adUrl: '',
-        },
-      ],
+      interval: null,
+      time: Date.now(),
+      currentAdIndex: -1,
+      advertisementImages: [],
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    getAds().then(d => {
+      this.setState({
+        advertisementImages: d,
+      });
+    });
 
-  renderItem({ item }) {
-    console.log(item);
+    this.state.interval = setInterval(() => {
+      const { currentAdIndex, advertisementImages } = this.state;
+      var x = currentAdIndex + 1;
+      if (x > advertisementImages.length - 1) {
+        this.setState({
+          currentAdIndex: 0,
+        });
+        this.adsFlatListRef.current.scrollToIndex({
+          index: 0,
+          animated: false,
+        });
+      } else {
+        this.setState({
+          currentAdIndex: x,
+        });
+        this.adsFlatListRef.current.scrollToIndex({
+          index: x,
+          animated: false,
+        });
+      }
+    }, 5000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
+
+  renderItem = ({ item }) => {
     return (
       <View style={{ width: Dimensions.get('window').width, height: 100 }}>
         <Image
           style={{ width: '100%', height: 100 }}
-          resizeMode="cover"
-          source={{ uri: item.coverImageUrl }}
+          resizeMode="stretch"
+          source={{ uri: item.coverImage }}
         />
       </View>
     );
-  }
+  };
 
   render() {
     const { advertisementImages } = this.state;
     return (
       <SafeAreaView>
         <FlatList
-          // scrollEnabled={false}
+          ref={this.adsFlatListRef}
           horizontal
           data={advertisementImages}
           renderItem={this.renderItem}

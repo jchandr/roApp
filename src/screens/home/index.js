@@ -49,8 +49,9 @@ class Home extends Component {
                 elevation={10}
                 style={styles.cardItem}
                 onPress={() => this.handleCardItemPress(card)}>
-                <Card.Content style={styles.cardItemContent}>
-                  <Text>{card.label}</Text>
+                <Card.Content
+                  style={[styles.cardItemContent, styles.justifyAlignCenter]}>
+                  <Text style={styles.cardItemText}>{card.label}</Text>
                 </Card.Content>
               </Card>
             );

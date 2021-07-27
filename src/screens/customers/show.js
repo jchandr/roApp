@@ -91,6 +91,7 @@ class ContactShow extends Component {
       this.setState({
         isCustomerDataInvalidated: false,
       });
+      this.getData();
     });
   }
 

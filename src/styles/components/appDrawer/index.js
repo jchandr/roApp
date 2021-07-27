@@ -4,7 +4,7 @@ import rootStyles from '../../index';
 const styles = StyleSheet.create({
   ...rootStyles,
   logoutButton: {
-    backgroundColor: '#04009A',
+    backgroundColor: '#fe7426',
   },
   logoutButtonLabelText: {
     color: '#ffffff',

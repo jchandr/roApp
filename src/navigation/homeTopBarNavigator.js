@@ -7,7 +7,12 @@ const TopTab = createMaterialTopTabNavigator();
 
 function HomeTopTabNavigator() {
   return (
-    <TopTab.Navigator>
+    <TopTab.Navigator
+      tabBarOptions={{
+        indicatorStyle: {
+          backgroundColor: '#fe7426',
+        },
+      }}>
       <TopTab.Screen name="Home" component={Home} />
       <TopTab.Screen name="Settings" children={() => <Text>Settings</Text>} />
     </TopTab.Navigator>

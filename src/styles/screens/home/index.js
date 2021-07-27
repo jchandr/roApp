@@ -17,12 +17,16 @@ const styles = StyleSheet.create({
     margin: 5,
     display: 'flex',
     flexGrow: 1,
+    backgroundColor: '#ffcdbe',
   },
   cardItemContent: {
     display: 'flex',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  },
+  cardItemText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 18,
   },
 });
 
