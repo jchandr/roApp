@@ -1,13 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component } from 'react';
-import { SafeAreaView, View, Image, TextInput, Button } from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Image,
+  TextInput,
+  Button,
+  StyleSheet,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 import Loading from '../../components/loading/index';
 
-import styles from '../../styles/screens/login/index';
-
 import logo from '../../assets/images/logo.png';
+import commonStyles from '../../styles/commonStyles';
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -73,5 +79,26 @@ class LoginScreen extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  ...commonStyles,
+  logoWrapper: {
+    justifyContent: 'center',
+    width: '100%',
+  },
+  logo: {
+    width: 300,
+    alignSelf: 'center',
+  },
+  content: {
+    padding: 20,
+  },
+  textInput: {
+    borderWidth: 1,
+    color: 'black',
+    paddingLeft: 10,
+    marginBottom: 10,
+  },
+});
 
 export default LoginScreen;

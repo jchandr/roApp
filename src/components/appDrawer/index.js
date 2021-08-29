@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -7,8 +7,8 @@ import {
 } from '@react-navigation/drawer';
 import auth from '@react-native-firebase/auth';
 
-import styles from '../../styles/components/appDrawer/index';
 import AuthContext from '../../auth/index';
+import commonStyles from '../../styles/commonStyles';
 
 class CustomDrawer extends Component {
   static contextType = AuthContext;
@@ -49,5 +49,27 @@ class CustomDrawer extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  ...commonStyles,
+  logoutButton: {
+    backgroundColor: '#fe7426',
+  },
+  logoutButtonLabelText: {
+    color: '#ffffff',
+  },
+  customDrawerItemWrapper: {
+    padding: 5,
+  },
+  userProfileDrawerItemWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  userProfileDrawerItemAvatar: {},
+  userProfileDrawerItemEmail: {
+    paddingLeft: 10,
+    fontSize: 17,
+  },
+});
 
 export default CustomDrawer;

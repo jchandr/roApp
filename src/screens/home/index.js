@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { SafeAreaView, View, Text } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
 
 import AdsShowcase from '../../components/adsShowcase/index';
-
-import styles from '../../styles/screens/home/index';
+import commonStyles from '../../styles/commonStyles';
 
 class Home extends Component {
   constructor(props) {
@@ -61,5 +60,34 @@ class Home extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  ...commonStyles,
+  cardsWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'flex-start',
+  },
+  cardItem: {
+    height: 100,
+    width: 100,
+    margin: 5,
+    display: 'flex',
+    flexGrow: 1,
+    backgroundColor: '#ffcdbe',
+  },
+  cardItemContent: {
+    display: 'flex',
+    flex: 1,
+  },
+  cardItemText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 18,
+  },
+});
 
 export default Home;

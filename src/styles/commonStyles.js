@@ -1,4 +1,4 @@
-const styles = {
+const commonStyles = {
   flexContainer: {
     flex: 1,
   },
@@ -22,4 +22,4 @@ const styles = {
   },
 };
 
-export default styles;
+export default commonStyles;

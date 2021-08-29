@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import { View, ScrollView, RefreshControl, SafeAreaView } from 'react-native';
+import {
+  View,
+  ScrollView,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import AuthContext from '../../auth/index';
-import styles from '../../styles/screens/customers/show';
+
 import { getCustomerById, updateCustomerInfo } from '../../database/methods';
+import { serviceAlert } from '../../utils/sendSms/index';
+import commonStyles from '../../styles/commonStyles';
 
 class ContactShow extends Component {
   static contextType = AuthContext;
@@ -93,6 +101,20 @@ class ContactShow extends Component {
       });
       this.getData();
     });
+  }
+
+  handleSendSmsButtonClick() {
+    const { customerData } = this.state;
+    // console.log(customerData);
+    serviceAlert(
+      customerData.fullName,
+      customerData.mobile,
+      customerData.installationDate,
+    )
+      .then(resp => {
+        console.log(resp);
+      })
+      .catch(c => console.log(c));
   }
 
   handleTextInputChange(changedText, field) {
@@ -345,6 +367,15 @@ class ContactShow extends Component {
             />
           </View>
         </ScrollView>
+        <View style={styles.saveButtonWrapper}>
+          <Button
+            icon="android-messages"
+            mode="contained"
+            style={styles.flexContainer}
+            onPress={() => this.handleSendSmsButtonClick()}>
+            Send SMS
+          </Button>
+        </View>
         {isCustomerDataInvalidated && (
           <View style={styles.saveButtonWrapper}>
             <Button
@@ -360,5 +391,16 @@ class ContactShow extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  ...commonStyles,
+  textInput: {
+    padding: 10,
+    flex: 1,
+  },
+  saveButtonWrapper: {
+    height: 40,
+  },
+});
 
 export default ContactShow;

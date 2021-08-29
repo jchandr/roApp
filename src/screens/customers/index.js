@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import { SafeAreaView, View, ScrollView, RefreshControl } from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  ScrollView,
+  RefreshControl,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import { DataTable } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import AuthContext from '../../auth/index';
 import { getCustomers } from '../../database/methods';
 
-import styles from '../../styles/screens/customers/index';
+import commonstyles from '../../styles/commonStyles';
 
 class CustomerIndex extends Component {
   static contextType = AuthContext;
@@ -98,9 +106,31 @@ class CustomerIndex extends Component {
             </ScrollView>
           </DataTable>
         </View>
+        <TouchableOpacity
+          style={{
+            width: 50,
+            height: 50,
+            backgroundColor: '#ffcdbe',
+            borderRadius: 50,
+            position: 'absolute',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bottom: 10,
+            right: 10,
+          }}>
+          <Icon name="plus" size={20} />
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  ...commonstyles,
+  nameField: {
+    flex: 2,
+  },
+});
 
 export default CustomerIndex;
