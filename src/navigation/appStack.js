@@ -8,6 +8,7 @@ import AppDrawerNavigator from './appDrawer';
 import ContactShow from '../screens/customers/show';
 import CustomerIndex from '../screens/customers/index';
 import ContactCreate from '../screens/customers/create';
+import DistributorCreate from '../screens/distributors/create';
 
 class AppStackNavigator extends Component {
   constructor(props) {
@@ -41,6 +42,10 @@ class AppStackNavigator extends Component {
           <AppStack.Screen name="Contact Show" component={ContactShow} />
           <AppStack.Screen name="Customer Index" component={CustomerIndex} />
           <AppStack.Screen name="Customer Create" component={ContactCreate} />
+          <AppStack.Screen
+            name="Distributor Create"
+            component={DistributorCreate}
+          />
         </AppStack.Navigator>
       </NavigationContainer>
     );

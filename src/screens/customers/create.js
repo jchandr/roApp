@@ -12,7 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import AuthContext from '../../auth/index';
 
-import { getCustomerById, updateCustomerInfo } from '../../database/methods';
+import { updateCustomerInfo } from '../../database/methods';
 import commonStyles from '../../styles/commonStyles';
 
 class ContactCreate extends Component {
@@ -113,19 +113,11 @@ class ContactCreate extends Component {
     customerData[`${field}`] = changedText;
     this.setState({
       customerData: customerData,
-      isCustomerDataInvalidated: true,
     });
-    this.getData = this.getData.bind(this);
   }
 
   render() {
-    const {
-      customerData,
-      isRefreshing,
-
-      datePickerValue,
-      isDatePickerVisible,
-    } = this.state;
+    const { customerData, datePickerValue, isDatePickerVisible } = this.state;
     return (
       <SafeAreaView style={styles.flexContainer}>
         {isDatePickerVisible && (
@@ -136,18 +128,14 @@ class ContactCreate extends Component {
             onChange={this.handleDatePickerChange}
           />
         )}
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={() => this.getData()}
-            />
-          }
-          style={[styles.container, styles.flexColumn]}>
+        <ScrollView style={[styles.container, styles.flexColumn]}>
           <View style={[styles.container]}>
             <TextInput
               mode="outlined"
               label="Name"
+              onChangeText={text =>
+                this.handleTextInputChange(text, 'fullName')
+              }
               style={styles.textInput}
               value={customerData.fullName}
             />
@@ -163,6 +151,7 @@ class ContactCreate extends Component {
             <TextInput
               mode="outlined"
               label="Mobile"
+              keyboardType="number-pad"
               style={styles.textInput}
               onChangeText={text => this.handleTextInputChange(text, 'mobile')}
               value={customerData.mobile}
@@ -363,8 +352,9 @@ class ContactCreate extends Component {
 const styles = StyleSheet.create({
   ...commonStyles,
   textInput: {
-    padding: 10,
     flex: 1,
+    paddingHorizontal: 3,
+    paddingVertical: 3,
   },
   saveButtonWrapper: {
     height: 40,
