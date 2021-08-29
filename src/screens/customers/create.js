@@ -5,7 +5,6 @@ import {
   RefreshControl,
   SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
   Pressable,
 } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
@@ -14,10 +13,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AuthContext from '../../auth/index';
 
 import { getCustomerById, updateCustomerInfo } from '../../database/methods';
-import { serviceAlert } from '../../utils/sendSms/index';
 import commonStyles from '../../styles/commonStyles';
 
-class ContactShow extends Component {
+class ContactCreate extends Component {
   static contextType = AuthContext;
 
   constructor(props) {
@@ -35,7 +33,7 @@ class ContactShow extends Component {
         alkalineFilter: '',
         inlineCarbon: '',
         inlineSegment: '',
-        installationDate: '',
+        installationDate: new Date().toISOString().split('T')[0],
         membrane: '',
         mineralCatridge: '',
         motor: '',
@@ -44,28 +42,23 @@ class ContactShow extends Component {
         spun: '',
         uf: '',
         uv: '',
-        entryDate: '',
+        entryDate: new Date().toISOString().split('T')[0],
         serviceType: '',
       },
-      isCustomerDataInvalidated: false,
       datePickerValue: new Date(),
       datePickerFieldName: '',
       isDatePickerVisible: false,
     };
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
-    this.handleUpdateButtonClick = this.handleUpdateButtonClick.bind(this);
+    this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
     this.openDatePicker = this.openDatePicker.bind(this);
     this.handleDatePickerChange = this.handleDatePickerChange.bind(this);
   }
 
-  componentDidMount() {
-    this.getData();
-  }
+  componentDidMount() {}
 
   handleDatePickerChange(val) {
-    console.log('date picker chage');
-    console.log(val);
     const {
       nativeEvent: { timestamp },
       type,
@@ -98,7 +91,7 @@ class ContactShow extends Component {
     });
   }
 
-  handleUpdateButtonClick() {
+  handleSaveButtonClick() {
     const {
       route: {
         params: { id },
@@ -125,29 +118,11 @@ class ContactShow extends Component {
     this.getData = this.getData.bind(this);
   }
 
-  getData() {
-    const {
-      route: {
-        params: { id },
-      },
-    } = this.props;
-    this.setState({
-      isRefreshing: true,
-    });
-    getCustomerById(id).then(data => {
-      this.setState({
-        customerData: data,
-        isRefreshing: false,
-        isCustomerDataInvalidated: false,
-      });
-    });
-  }
-
   render() {
     const {
       customerData,
       isRefreshing,
-      isCustomerDataInvalidated,
+
       datePickerValue,
       isDatePickerVisible,
     } = this.state;
@@ -175,7 +150,6 @@ class ContactShow extends Component {
               label="Name"
               style={styles.textInput}
               value={customerData.fullName}
-              disabled
             />
             <TextInput
               mode="outlined"
@@ -371,17 +345,16 @@ class ContactShow extends Component {
             />
           </View>
         </ScrollView>
-        {isCustomerDataInvalidated && (
-          <View style={styles.saveButtonWrapper}>
-            <Button
-              icon="content-save"
-              mode="contained"
-              style={styles.flexContainer}
-              onPress={() => this.handleUpdateButtonClick()}>
-              Update
-            </Button>
-          </View>
-        )}
+
+        <View style={styles.saveButtonWrapper}>
+          <Button
+            icon="content-save"
+            mode="contained"
+            style={styles.flexContainer}
+            onPress={() => this.handleSaveButtonClick()}>
+            Save
+          </Button>
+        </View>
       </SafeAreaView>
     );
   }
@@ -398,4 +371,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContactShow;
+export default ContactCreate;

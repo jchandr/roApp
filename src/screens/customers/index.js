@@ -29,6 +29,9 @@ class CustomerIndex extends Component {
     this.setDatatableData = this.setDatatableData.bind(this);
     this.isCloseToBottom = this.isCloseToBottom.bind(this);
     this.handleDataTableItemClick = this.handleDataTableItemClick.bind(this);
+    this.handleCreateCustomerFabPress = this.handleCreateCustomerFabPress.bind(
+      this,
+    );
   }
 
   componentDidMount() {
@@ -63,6 +66,10 @@ class CustomerIndex extends Component {
       layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom
     );
+  }
+
+  handleCreateCustomerFabPress() {
+    this.props.navigation.navigate('Customer Create');
   }
 
   render() {
@@ -107,18 +114,8 @@ class CustomerIndex extends Component {
           </DataTable>
         </View>
         <TouchableOpacity
-          style={{
-            width: 50,
-            height: 50,
-            backgroundColor: '#ffcdbe',
-            borderRadius: 50,
-            position: 'absolute',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bottom: 10,
-            right: 10,
-          }}>
+          style={styles.createCustomerFab}
+          onPress={() => this.handleCreateCustomerFabPress()}>
           <Icon name="plus" size={20} />
         </TouchableOpacity>
       </SafeAreaView>
@@ -130,6 +127,18 @@ const styles = StyleSheet.create({
   ...commonstyles,
   nameField: {
     flex: 2,
+  },
+  createCustomerFab: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#ffcdbe',
+    borderRadius: 50,
+    position: 'absolute',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    bottom: 10,
+    right: 10,
   },
 });
 
