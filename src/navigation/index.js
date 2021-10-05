@@ -11,7 +11,9 @@ export default function AuthNavigator() {
 
   // Handle user state changes
   function onAuthStateChanged(result) {
+    // handleing the autosigin after firebase login
     setUser(result);
+
     if (initializing) {
       setInitializing(false);
     }

@@ -382,6 +382,21 @@ class ContactShow extends Component {
             </Button>
           </View>
         )}
+        <View style={styles.saveButtonWrapper}>
+          <Button
+            icon="content-save"
+            mode="contained"
+            style={styles.flexContainer}
+            onPress={() =>
+              serviceAlert(
+                customerData.fullName,
+                customerData.mobile,
+                customerData.entryDate,
+              )
+            }>
+            Send SMS
+          </Button>
+        </View>
       </SafeAreaView>
     );
   }

@@ -12,7 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import AuthContext from '../../auth/index';
 
-import { updateCustomerInfo } from '../../database/methods';
+import { createCustomerRecord } from '../../database/methods';
 import commonStyles from '../../styles/commonStyles';
 
 class ContactCreate extends Component {
@@ -92,19 +92,12 @@ class ContactCreate extends Component {
   }
 
   handleSaveButtonClick() {
-    const {
-      route: {
-        params: { id },
-      },
-    } = this.props;
-
     const { customerData } = this.state;
-
-    updateCustomerInfo(id, customerData).then(() => {
+    const userId = this.context.uid;
+    createCustomerRecord(userId, customerData).then(() => {
       this.setState({
         isCustomerDataInvalidated: false,
       });
-      this.getData();
     });
   }
 

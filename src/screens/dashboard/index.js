@@ -32,6 +32,9 @@ class Dashboard extends Component {
               style={styles.tile}>
               <Text>Distributors</Text>
             </Button>
+            <View style={styles.tile}>
+              <Text>asdf</Text>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -42,9 +45,11 @@ class Dashboard extends Component {
 const styles = StyleSheet.create({
   tile: {
     margin: 10,
+    flex: 1,
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 0,
   },
   tileGroup: {
     display: 'flex',

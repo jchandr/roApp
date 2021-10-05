@@ -48,16 +48,23 @@ class CustomerIndex extends Component {
     });
     var tempDataTableValues = [];
 
-    getCustomers(25, 1).then(val => {
-      for (var [id, entry] of Object.entries(val)) {
-        entry.id = id;
-        tempDataTableValues.push(entry);
-      }
-      this.setState({
-        customerData: tempDataTableValues,
-        isRefreshing: false,
+    getCustomers(25, 1)
+      .then(val => {
+        for (var [id, entry] of Object.entries(val)) {
+          entry.id = id;
+          tempDataTableValues.push(entry);
+        }
+        this.setState({
+          customerData: tempDataTableValues,
+          isRefreshing: false,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          customerData: [],
+          isRefreshing: false,
+        });
       });
-    });
   }
 
   isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {

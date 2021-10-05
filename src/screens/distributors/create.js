@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { View, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
+import {
+  View,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 
 import AuthContext from '../../auth/index';
 
-import { updateCustomerInfo } from '../../database/methods';
+import { createDistributorAccount } from '../../database/methods';
 import commonStyles from '../../styles/commonStyles';
 
 class DistributorCreate extends Component {
@@ -14,28 +20,10 @@ class DistributorCreate extends Component {
     super(props);
     this.state = {
       distributorData: {
-        fullName: '',
-        customerId: '',
-        mobile: '',
-        address: '',
-        model: '',
-        brandName: '',
-        waterSource: '',
-        adapter: '',
-        alkalineFilter: '',
-        inlineCarbon: '',
-        inlineSegment: '',
-        installationDate: new Date().toISOString().split('T')[0],
-        membrane: '',
-        mineralCatridge: '',
-        motor: '',
-        sv: '',
-        serviceDuration: '',
-        spun: '',
-        uf: '',
-        uv: '',
-        entryDate: new Date().toISOString().split('T')[0],
-        serviceType: '',
+        name: 'test',
+        mobile: '1234567890',
+        address: 'temp address',
+        email: 'test@test.com',
       },
     };
 
@@ -46,20 +34,38 @@ class DistributorCreate extends Component {
   componentDidMount() {}
 
   handleSaveButtonClick() {
-    const {
-      route: {
-        params: { id },
-      },
-    } = this.props;
-
     const { distributorData } = this.state;
 
-    updateCustomerInfo(id, distributorData).then(() => {
-      this.setState({
-        isdistributorDataInvalidated: false,
+    createDistributorAccount(
+      distributorData.name,
+      distributorData.email,
+      distributorData.mobile,
+      distributorData.address,
+    )
+      .then(x => {
+        Alert.alert(
+          'Account Created',
+          `Please take note of the email ${distributorData.email}. You will be now logged in as the user ${distributorData.email}. You can logout if you wish to.`,
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                this.props.navigation.goBack();
+              },
+            },
+          ],
+        );
+      })
+      .catch(() => {
+        Alert.alert('Problem Creating Account', 'Please check the email', [
+          {
+            text: 'OK',
+            onPress: () => {
+              this.props.navigation.goBack();
+            },
+          },
+        ]);
       });
-      this.getData();
-    });
   }
 
   handleTextInputChange(changedText, field) {
@@ -79,36 +85,37 @@ class DistributorCreate extends Component {
             <TextInput
               mode="outlined"
               label="Name"
-              onChangeText={text =>
-                this.handleTextInputChange(text, 'fullName')
-              }
+              onChangeText={text => this.handleTextInputChange(text, 'name')}
               style={styles.textInput}
-              value={distributorData.fullName}
+              value={distributorData.name}
             />
             <TextInput
               mode="outlined"
               label="Mobile"
+              onChangeText={text => this.handleTextInputChange(text, 'mobile')}
               keyboardType="number-pad"
               style={styles.textInput}
-              value={distributorData.customerId}
+              value={distributorData.mobile}
             />
           </View>
-
           <View style={[styles.container]}>
             <TextInput
               mode="outlined"
               label="Address"
               multiline
               style={styles.textInput}
-              onChangeText={text => this.handleTextInputChange(text, 'uf')}
-              value={distributorData.uf}
+              onChangeText={text => this.handleTextInputChange(text, 'address')}
+              value={distributorData.address}
             />
+          </View>
+          <View style={[styles.container]}>
             <TextInput
               mode="outlined"
-              label="UV"
+              label="Email"
+              keyboardType="email-address"
               style={styles.textInput}
-              value={distributorData.uv}
-              onChangeText={text => this.handleTextInputChange(text, 'uv')}
+              onChangeText={text => this.handleTextInputChange(text, 'email')}
+              value={distributorData.email}
             />
           </View>
           <View style={styles.saveButtonWrapper}>
