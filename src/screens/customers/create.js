@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   View,
   ScrollView,
-  RefreshControl,
   SafeAreaView,
   StyleSheet,
   Pressable,
+  Text,
 } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, Menu, Portal, Dialog } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import AuthContext from '../../auth/index';
@@ -42,12 +42,28 @@ class ContactCreate extends Component {
         spun: '',
         uf: '',
         uv: '',
-        entryDate: new Date().toISOString().split('T')[0],
-        serviceType: '',
       },
       datePickerValue: new Date(),
       datePickerFieldName: '',
       isDatePickerVisible: false,
+      requiredCustomerDataFields: [
+        'membrane',
+        'motor',
+        'spun',
+        'fullName',
+        'mobile',
+        'address',
+      ],
+      waterSourceMenuOptions: [
+        'bore water',
+        'well water',
+        'corporation water',
+        'other',
+      ],
+      serviceDurationOptionsInMonths: [3, 6, 12],
+      isServiceDurationMenuVisible: false,
+      isWaterSourceMenuVisible: false,
+      isRequiredFieldDialogBoxVisible: false,
     };
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
@@ -92,12 +108,24 @@ class ContactCreate extends Component {
   }
 
   handleSaveButtonClick() {
-    const { customerData } = this.state;
+    const { customerData, requiredCustomerDataFields } = this.state;
+
+    for (let index = 0; index < requiredCustomerDataFields.length; index++) {
+      const element = requiredCustomerDataFields[index];
+      if (customerData[element] === '') {
+        this.setState({
+          isRequiredFieldDialogBoxVisible: true,
+        });
+        return;
+      }
+    }
+
     const userId = this.context.uid;
     createCustomerRecord(userId, customerData).then(() => {
       this.setState({
         isCustomerDataInvalidated: false,
       });
+      this.props.navigation.replace('Customer Index');
     });
   }
 
@@ -109,10 +137,82 @@ class ContactCreate extends Component {
     });
   }
 
+  handleWaterSourceMenuOpen() {
+    this.setState({
+      isWaterSourceMenuVisible: true,
+    });
+  }
+
+  handleWaterSourceMenuClose() {
+    this.setState({
+      isWaterSourceMenuVisible: false,
+    });
+  }
+
+  handleServiceDurationMenuOpen() {
+    this.setState({
+      isServiceDurationMenuVisible: true,
+    });
+  }
+
+  handleServiceDurationMenuClose() {
+    this.setState({
+      isServiceDurationMenuVisible: false,
+    });
+  }
+
+  handleWaterSourceOptionPress(option) {
+    const { customerData } = this.state;
+    customerData.waterSource = option;
+    this.setState({
+      customerData: customerData,
+      isWaterSourceMenuVisible: false,
+    });
+  }
+
+  handleServiceDurationOptionPress(option) {
+    const { customerData } = this.state;
+    customerData.serviceDuration = option;
+    this.setState({
+      customerData: customerData,
+      isServiceDurationMenuVisible: false,
+    });
+  }
+
+  handleRequiredFieldDialogBoxClose() {
+    this.setState({
+      isRequiredFieldDialogBoxVisible: false,
+    });
+  }
+
   render() {
-    const { customerData, datePickerValue, isDatePickerVisible } = this.state;
+    const {
+      customerData,
+      datePickerValue,
+      isDatePickerVisible,
+      isWaterSourceMenuVisible,
+      waterSourceMenuOptions,
+      isServiceDurationMenuVisible,
+      serviceDurationOptionsInMonths,
+      isRequiredFieldDialogBoxVisible,
+    } = this.state;
     return (
       <SafeAreaView style={styles.flexContainer}>
+        <Portal>
+          <Dialog visible={isRequiredFieldDialogBoxVisible} dismissable={false}>
+            <Dialog.Title>Validation Error</Dialog.Title>
+            <Dialog.Content>
+              <Text>
+                Fields Outlined in Red are required fields. Please check.
+              </Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={() => this.handleRequiredFieldDialogBoxClose()}>
+                Ok
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
         {isDatePickerVisible && (
           <DateTimePicker
             value={datePickerValue}
@@ -176,23 +276,70 @@ class ContactCreate extends Component {
               }
             />
           </View>
-          <View style={[styles.container]}>
-            <TextInput
-              mode="outlined"
-              label="WaterSource"
-              style={styles.textInput}
-              onChangeText={text =>
-                this.handleTextInputChange(text, 'waterSource')
-              }
-              value={customerData.waterSource}
-            />
-            <TextInput
-              mode="outlined"
-              label="Adapter"
-              style={styles.textInput}
-              value={customerData.adapter}
-              onChangeText={text => this.handleTextInputChange(text, 'adapter')}
-            />
+          <View>
+            <Menu
+              visible={isWaterSourceMenuVisible}
+              onDismiss={() => this.handleWaterSourceMenuClose()}
+              anchor={
+                <Pressable onPress={() => this.handleWaterSourceMenuOpen()}>
+                  <TextInput
+                    style={styles.textInput}
+                    mode="outlined"
+                    label="WaterSource"
+                    editable={false}
+                    onChangeText={text =>
+                      this.handleTextInputChange(text, 'waterSource')
+                    }
+                    value={customerData.waterSource}
+                  />
+                </Pressable>
+              }>
+              {waterSourceMenuOptions.map((waterOption, i) => {
+                return (
+                  <Menu.Item
+                    key={i}
+                    onPress={() =>
+                      this.handleWaterSourceOptionPress(waterOption)
+                    }
+                    title={waterOption}
+                  />
+                );
+              })}
+            </Menu>
+
+            <Menu
+              visible={isServiceDurationMenuVisible}
+              onDismiss={() => this.handleServiceDurationMenuClose()}
+              anchor={
+                <Pressable onPress={() => this.handleServiceDurationMenuOpen()}>
+                  <TextInput
+                    mode="outlined"
+                    editable={false}
+                    label="Service Duration"
+                    style={styles.textInput}
+                    onChangeText={text =>
+                      this.handleTextInputChange(text, 'serviceDuration')
+                    }
+                    value={
+                      customerData.serviceDuration === ''
+                        ? ''
+                        : `${customerData.serviceDuration} months`
+                    }
+                  />
+                </Pressable>
+              }>
+              {serviceDurationOptionsInMonths.map((option, i) => {
+                return (
+                  <Menu.Item
+                    key={i}
+                    onPress={() =>
+                      this.handleServiceDurationOptionPress(option)
+                    }
+                    title={`${option} months`}
+                  />
+                );
+              })}
+            </Menu>
           </View>
           <View style={[styles.container]}>
             <TextInput
@@ -239,9 +386,10 @@ class ContactCreate extends Component {
             <TextInput
               mode="outlined"
               label="Membrane"
+              error={customerData.membrane === '' ? true : false}
               style={styles.textInput}
               onChangeText={text =>
-                this.handleTextInputChange(text, 'Membrane')
+                this.handleTextInputChange(text, 'membrane')
               }
               value={customerData.membrane}
             />
@@ -257,6 +405,7 @@ class ContactCreate extends Component {
           </View>
           <View style={[styles.container]}>
             <TextInput
+              error={customerData.motor === '' ? true : false}
               mode="outlined"
               label="Motor"
               style={styles.textInput}
@@ -274,16 +423,15 @@ class ContactCreate extends Component {
           <View style={[styles.container]}>
             <TextInput
               mode="outlined"
-              label="Service Duration"
+              label="Adapter"
               style={styles.textInput}
-              onChangeText={text =>
-                this.handleTextInputChange(text, 'serviceDuration')
-              }
-              value={customerData.serviceDuration}
+              value={customerData.adapter}
+              onChangeText={text => this.handleTextInputChange(text, 'adapter')}
             />
             <TextInput
               mode="outlined"
               label="Spun"
+              error={customerData.spun === '' ? true : false}
               style={styles.textInput}
               value={customerData.spun}
               onChangeText={text => this.handleTextInputChange(text, 'spun')}
@@ -305,29 +453,7 @@ class ContactCreate extends Component {
               onChangeText={text => this.handleTextInputChange(text, 'uv')}
             />
           </View>
-          <View style={[styles.container]}>
-            <Pressable
-              style={styles.textInput}
-              onPress={() => this.openDatePicker('entryDate')}>
-              <TextInput
-                editable={false}
-                mode="outlined"
-                label="Entry Date"
-                value={String(customerData.entryDate)}
-              />
-            </Pressable>
-            <TextInput
-              mode="outlined"
-              label="Service Type"
-              style={styles.textInput}
-              value={customerData.serviceType}
-              onChangeText={text =>
-                this.handleTextInputChange(text, 'serviceType')
-              }
-            />
-          </View>
         </ScrollView>
-
         <View style={styles.saveButtonWrapper}>
           <Button
             icon="content-save"

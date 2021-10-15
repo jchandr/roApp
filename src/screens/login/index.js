@@ -11,6 +11,7 @@ import {
 import auth from '@react-native-firebase/auth';
 
 import Loading from '../../components/loading/index';
+import AdsShowcase from '../../components/adsShowcase';
 
 import logo from '../../assets/images/logo.png';
 import commonStyles from '../../styles/commonStyles';
@@ -50,6 +51,9 @@ class LoginScreen extends Component {
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
         {/* <Loading isLoading={isLoading} /> */}
+        <View>
+          <AdsShowcase />
+        </View>
         <View style={{ flex: 2 }}>
           <View style={[styles.container, styles.logoWrapper]}>
             <Image resizeMode="contain" style={styles.logo} source={logo} />

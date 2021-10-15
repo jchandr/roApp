@@ -73,7 +73,7 @@ export const getCustomers = (pageSize, startFrom = '') => {
       .ref(`/users/distributors/${currentUser}/customers`)
       .orderByChild('entryDate')
       .limitToFirst(pageSize)
-      .startAt(startFrom)
+      // .startAt(startFrom)
       .on('value', snapshot => {
         if (snapshot === null) {
           return reject();
