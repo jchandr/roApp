@@ -111,15 +111,15 @@ class ContactCreate extends Component {
   handleSaveButtonClick() {
     const { customerData, requiredCustomerDataFields } = this.state;
 
-    // for (let index = 0; index < requiredCustomerDataFields.length; index++) {
-    //   const element = requiredCustomerDataFields[index];
-    //   if (customerData[element] === '') {
-    //     this.setState({
-    //       isRequiredFieldDialogBoxVisible: true,
-    //     });
-    //     return;
-    //   }
-    // }
+    for (let index = 0; index < requiredCustomerDataFields.length; index++) {
+      const element = requiredCustomerDataFields[index];
+      if (customerData[element] === '') {
+        this.setState({
+          isRequiredFieldDialogBoxVisible: true,
+        });
+        return;
+      }
+    }
 
     const userId = this.context.uid;
     createCustomerRecord(userId, customerData).then(() => {
