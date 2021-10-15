@@ -11,6 +11,16 @@ const generatePassword = () => {
   return retVal;
 };
 
+const generateOtp = () => {
+  var digits = '0123456789';
+  let OTP = '';
+  var otpLength = 4;
+  for (let i = 0; i < otpLength; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
+  return OTP;
+};
+
 export const createDistributorAccount = (name, email, phone, address) => {
   // const password = generatePassword();
   // we will now use a default password Qwerty@123 as a default password
@@ -66,14 +76,13 @@ export const isUserAdmin = async function (userEmail) {
   });
 };
 
-export const getCustomers = (pageSize, startFrom = '') => {
+export const getCustomers = pageSize => {
   const currentUser = auth().currentUser.uid;
   return new Promise(function (resolve, reject) {
     database()
       .ref(`/users/distributors/${currentUser}/customers`)
-      .orderByChild('entryDate')
+      .orderByChild('installationDate')
       .limitToFirst(pageSize)
-      // .startAt(startFrom)
       .on('value', snapshot => {
         if (snapshot === null) {
           return reject();
@@ -114,13 +123,61 @@ export const updateCustomerInfo = (documentId, data) => {
   });
 };
 
+export const createServicesEntry = (
+  serviceDuration,
+  installationDate,
+  customerDocId,
+) => {
+  const currentUser = auth().currentUser.uid;
+  for (let index = 1; index <= serviceDuration; index++) {
+    var nextMonthDate = new Date(installationDate);
+    nextMonthDate.setMonth(nextMonthDate.getMonth() + index);
+    const toPush = {
+      customerDocId: customerDocId,
+      currentServiceMonthCount: index,
+      serviceDuration: serviceDuration,
+      satisfiedOtp: generateOtp(),
+      unsatisfiedOtp: generateOtp(),
+      serviceDueDate: nextMonthDate,
+      isClosed: false,
+      closeType: '',
+      closedAt: '',
+      createdAt: database.ServerValue.TIMESTAMP,
+    };
+    database().ref(`users/distributors/${currentUser}/services/`).push(toPush);
+  }
+};
+
 export const createCustomerRecord = (uid, data) => {
+  const currentUser = auth().currentUser.uid;
+
   return new Promise((resolve, reject) => {
     database()
-      .ref(`users/distributors/${uid}/customers/`)
-      .push(data)
-      .then(() => {
-        resolve();
+      .ref(`users/distributors/${currentUser}/detail`)
+      .once('value', snapshot => {
+        const val = snapshot.val();
+
+        const newData = {
+          ...data,
+          customerId: val.customersCount + 1,
+        };
+        database()
+          .ref(`users/distributors/${currentUser}/customers/`)
+          .push(newData)
+          .then(snap => {
+            createServicesEntry(
+              data.serviceDuration,
+              data.installationDate,
+              snap.key,
+            );
+
+            resolve();
+            database()
+              .ref(`users/distributors/${currentUser}/detail`)
+              .set({
+                customersCount: database.ServerValue.increment(1),
+              });
+          });
       });
   });
 };

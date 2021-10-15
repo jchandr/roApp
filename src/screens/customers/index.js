@@ -24,6 +24,8 @@ class CustomerIndex extends Component {
       user: this.context,
       customerData: [],
       isRefreshing: false,
+      currentPageNumber: 0,
+      currentPageSize: 10,
     };
 
     this.setDatatableData = this.setDatatableData.bind(this);
@@ -48,7 +50,9 @@ class CustomerIndex extends Component {
     });
     var tempDataTableValues = [];
 
-    getCustomers(25, 1)
+    const { currentPageNumber, currentPageSize } = this.state;
+
+    getCustomers(currentPageSize, currentPageNumber + 1)
       .then(val => {
         for (var [id, entry] of Object.entries(val)) {
           entry.id = id;
@@ -79,8 +83,23 @@ class CustomerIndex extends Component {
     this.props.navigation.navigate('Customer Create');
   }
 
+  handlePageChange(page) {
+    this.setState(
+      {
+        currentPageNumber: page,
+      },
+      () => {
+        this.setDatatableData();
+      },
+    );
+  }
+
+  convertDateSecondsToDateString(secs) {
+    return new Date(secs).toISOString().split('T')[0];
+  }
+
   render() {
-    const { customerData, isRefreshing } = this.state;
+    const { customerData, isRefreshing, currentPageNumber } = this.state;
 
     return (
       <SafeAreaView style={styles.flexContainer}>
@@ -89,7 +108,7 @@ class CustomerIndex extends Component {
             <DataTable.Header>
               <DataTable.Title style={styles.nameField}>Name</DataTable.Title>
               <DataTable.Title>Mobile</DataTable.Title>
-              <DataTable.Title>Entry Date</DataTable.Title>
+              <DataTable.Title>Instal Date</DataTable.Title>
             </DataTable.Header>
             <ScrollView
               onScroll={({ nativeEvent }) => {
@@ -113,11 +132,21 @@ class CustomerIndex extends Component {
                       {data.fullName}
                     </DataTable.Cell>
                     <DataTable.Cell>{data.mobile}</DataTable.Cell>
-                    <DataTable.Cell>{data.entryDate}</DataTable.Cell>
+                    <DataTable.Cell>
+                      {this.convertDateSecondsToDateString(
+                        data.installationDate,
+                      )}
+                    </DataTable.Cell>
                   </DataTable.Row>
                 );
               })}
             </ScrollView>
+            <DataTable.Pagination
+              style={{ justifyContent: 'flex-start' }}
+              page={currentPageNumber}
+              numberOfPages={3}
+              onPageChange={page => this.handlePageChange(page)}
+            />
           </DataTable>
         </View>
         <TouchableOpacity

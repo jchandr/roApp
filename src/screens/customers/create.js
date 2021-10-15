@@ -33,7 +33,7 @@ class ContactCreate extends Component {
         alkalineFilter: '',
         inlineCarbon: '',
         inlineSegment: '',
-        installationDate: new Date().toISOString().split('T')[0],
+        installationDate: new Date().getTime(),
         membrane: '',
         mineralCatridge: '',
         motor: '',
@@ -53,6 +53,7 @@ class ContactCreate extends Component {
         'fullName',
         'mobile',
         'address',
+        'serviceDuration',
       ],
       waterSourceMenuOptions: [
         'bore water',
@@ -86,8 +87,9 @@ class ContactCreate extends Component {
       });
       return;
     }
+
     var { customerData, datePickerFieldName } = this.state;
-    var thisDate = timestamp.toISOString().slice(0, 10);
+    var thisDate = new Date(String(timestamp)).getTime();
     customerData[`${datePickerFieldName}`] = thisDate;
     this.setState({
       isDatePickerVisible: false,
@@ -99,11 +101,10 @@ class ContactCreate extends Component {
   openDatePicker(fieldName) {
     const { customerData } = this.state;
     var thisDate = customerData[`${fieldName}`];
-    thisDate = new Date(Date.parse(thisDate));
     this.setState({
       isDatePickerVisible: true,
       datePickerFieldName: fieldName,
-      datePickerValue: thisDate,
+      datePickerValue: new Date(thisDate),
     });
   }
 
@@ -122,9 +123,6 @@ class ContactCreate extends Component {
 
     const userId = this.context.uid;
     createCustomerRecord(userId, customerData).then(() => {
-      this.setState({
-        isCustomerDataInvalidated: false,
-      });
       this.props.navigation.replace('Customer Index');
     });
   }
@@ -183,6 +181,10 @@ class ContactCreate extends Component {
     this.setState({
       isRequiredFieldDialogBoxVisible: false,
     });
+  }
+
+  convertDateSecondsToDateString(secs) {
+    return new Date(secs).toISOString().split('T')[0];
   }
 
   render() {
@@ -315,6 +317,7 @@ class ContactCreate extends Component {
                   <TextInput
                     mode="outlined"
                     editable={false}
+                    error={customerData.serviceDuration === '' ? true : false}
                     label="Service Duration"
                     style={styles.textInput}
                     onChangeText={text =>
@@ -378,7 +381,9 @@ class ContactCreate extends Component {
                 editable={false}
                 mode="outlined"
                 label="Installation Date"
-                value={String(customerData.installationDate)}
+                value={this.convertDateSecondsToDateString(
+                  customerData.installationDate,
+                )}
               />
             </Pressable>
           </View>
