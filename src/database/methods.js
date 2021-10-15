@@ -138,7 +138,7 @@ export const createServicesEntry = (
       serviceDuration: serviceDuration,
       satisfiedOtp: generateOtp(),
       unsatisfiedOtp: generateOtp(),
-      serviceDueDate: nextMonthDate,
+      serviceDueDate: nextMonthDate.getTime(),
       isClosed: false,
       closeType: '',
       closedAt: '',
@@ -146,6 +146,22 @@ export const createServicesEntry = (
     };
     database().ref(`users/distributors/${currentUser}/services/`).push(toPush);
   }
+};
+
+export const getServices = (startAt = null) => {
+  const currentUser = auth().currentUser.uid;
+
+  return new Promise((resolve, reject) => {
+    database()
+      .ref(`users/distributors/${currentUser}/services/`)
+      .orderByChild('serviceDueDate')
+      .on('value', snapshot => {
+        if (snapshot === null) {
+          return reject();
+        }
+        return resolve(snapshot.val());
+      });
+  });
 };
 
 export const createCustomerRecord = (uid, data) => {

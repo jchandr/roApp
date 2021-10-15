@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
@@ -22,7 +23,7 @@ class LoginScreen extends Component {
     this.state = {
       email: 'bajji93@gmail.com',
       password: 'myno9940',
-      isLoading: true,
+      isLoading: false,
     };
 
     this.handleLoginButtonPress = this.handleLoginButtonPress.bind(this);
@@ -32,7 +33,19 @@ class LoginScreen extends Component {
 
   handleLoginButtonPress() {
     const { email, password } = this.state;
-    auth().signInWithEmailAndPassword(email, password);
+    this.setState({
+      isLoading: true,
+    });
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(() => {
+        Alert.alert('Invalid Login', 'Invalid Login');
+      })
+      .finally(() => {
+        this.setState({
+          isLoading: false,
+        });
+      });
   }
 
   handleEmailInput(val) {
@@ -50,11 +63,11 @@ class LoginScreen extends Component {
     const { email, password, isLoading } = this.state;
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
-        {/* <Loading isLoading={isLoading} /> */}
+        <Loading isLoading={isLoading} />
         <View>
           <AdsShowcase />
         </View>
-        <View style={{ flex: 2 }}>
+        <View style={{ flex: 4 }}>
           <View style={[styles.container, styles.logoWrapper]}>
             <Image resizeMode="contain" style={styles.logo} source={logo} />
           </View>

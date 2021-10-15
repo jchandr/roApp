@@ -1,12 +1,5 @@
-import React, { Component, createRef } from 'react';
-import {
-  SafeAreaView,
-  Text,
-  View,
-  FlatList,
-  Dimensions,
-  Image,
-} from 'react-native';
+import React, { Component } from 'react';
+import { SafeAreaView, View, FlatList, Dimensions, Image } from 'react-native';
 
 import { getAds } from '../../database/methods';
 
@@ -57,9 +50,9 @@ class AdsShowcase extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <View style={{ width: Dimensions.get('window').width, height: 100 }}>
+      <View style={{ width: Dimensions.get('window').width, height: 125 }}>
         <Image
-          style={{ width: '100%', height: 100 }}
+          style={{ width: '100%', height: 125 }}
           resizeMode="stretch"
           source={{ uri: item.coverImage }}
         />

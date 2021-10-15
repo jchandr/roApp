@@ -16,7 +16,7 @@ class Home extends Component {
         },
         {
           label: 'Todays Services',
-          routeName: 'Customer Index',
+          routeName: 'Todays Services',
         },
         {
           label: 'Closed Services',
