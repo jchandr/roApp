@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:637262004518:android:827d94f1f92733a3fac1e7",
         "android_client_info": {
-          "package_name": "com.roapp"
+          "package_name": "com.aquaztechrosrvsapp"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "637262004518-8fpn9c0qcrpjgc9fh14qh2rhlu4muptf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.roapp",
+            "package_name": "com.aquaztechrosrvsapp",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },

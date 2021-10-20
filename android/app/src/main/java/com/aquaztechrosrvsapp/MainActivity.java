@@ -1,4 +1,4 @@
-package com.roapp;
+package com.aquaztechrosrvsapp;
 
 import com.facebook.react.ReactActivity;
 

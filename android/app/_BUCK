@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.roapp",
+    package = "com.aquaztechrosrvsapp",
 )
 
 android_resource(
     name = "res",
-    package = "com.roapp",
+    package = "com.aquaztechrosrvsapp",
     res = "src/main/res",
 )
 
