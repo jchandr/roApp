@@ -6,6 +6,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   StyleSheet,
+  Text,
 } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -97,7 +98,7 @@ class TodaysServices extends Component {
   }
 
   render() {
-    const { servicesData, isRefreshing, currentPageNumber } = this.state;
+    const { servicesData, isRefreshing } = this.state;
 
     return (
       <SafeAreaView style={styles.flexContainer}>
@@ -109,11 +110,6 @@ class TodaysServices extends Component {
               <DataTable.Title>Due Date</DataTable.Title>
             </DataTable.Header>
             <ScrollView
-              onScroll={({ nativeEvent }) => {
-                if (this.isCloseToBottom(nativeEvent)) {
-                  console.log('hi');
-                }
-              }}
               scrollEventThrottle={400}
               refreshControl={
                 <RefreshControl
@@ -129,7 +125,12 @@ class TodaysServices extends Component {
                     <DataTable.Cell style={styles.nameField}>
                       {data.currentServiceMonthCount}
                     </DataTable.Cell>
-                    <DataTable.Cell>
+                    <DataTable.Cell
+                      style={
+                        data.isClosed
+                          ? styles.serviceClosed
+                          : styles.serviceOpen
+                      }>
                       {data.isClosed ? 'Closed' : 'Open'}
                     </DataTable.Cell>
                     <DataTable.Cell>
@@ -139,12 +140,6 @@ class TodaysServices extends Component {
                 );
               })}
             </ScrollView>
-            <DataTable.Pagination
-              style={{ justifyContent: 'flex-start' }}
-              page={currentPageNumber}
-              numberOfPages={3}
-              onPageChange={page => this.handlePageChange(page)}
-            />
           </DataTable>
         </View>
         <TouchableOpacity
@@ -173,6 +168,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     bottom: 10,
     right: 10,
+  },
+  serviceOpen: {
+    // backgroundColor: 'red',
+    // borderRadius: 4,
+  },
+  serviceClosed: {
+    // backgroundColor: 'green',
   },
 });
 

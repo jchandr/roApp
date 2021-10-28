@@ -82,7 +82,6 @@ export const getCustomers = pageSize => {
     database()
       .ref(`/users/distributors/${currentUser}/customers`)
       .orderByChild('installationDate')
-      .limitToFirst(pageSize)
       .on('value', snapshot => {
         if (snapshot === null) {
           return reject();

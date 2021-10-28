@@ -141,12 +141,6 @@ class CustomerIndex extends Component {
                 );
               })}
             </ScrollView>
-            <DataTable.Pagination
-              style={{ justifyContent: 'flex-start' }}
-              page={currentPageNumber}
-              numberOfPages={3}
-              onPageChange={page => this.handlePageChange(page)}
-            />
           </DataTable>
         </View>
         <TouchableOpacity
