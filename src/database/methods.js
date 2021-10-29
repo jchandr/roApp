@@ -21,12 +21,18 @@ const generateOtp = () => {
   return OTP;
 };
 
-export const createDistributorAccount = (name, email, phone, address) => {
+export const createDistributorAccount = (
+  name,
+  email,
+  phone,
+  address,
+  password = 'Qwerty@123',
+) => {
   // const password = generatePassword();
   // we will now use a default password Qwerty@123 as a default password
   // but in later stages, we need to generate a random password and send it to the email ID.
   // shold ask the user to reset the password
-  const password = 'Qwerty@123';
+  // const password = 'Qwerty@123';
   return new Promise((resolve, reject) => {
     auth()
       .createUserWithEmailAndPassword(email, password)

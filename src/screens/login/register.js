@@ -16,41 +16,28 @@ import AdsShowcase from '../../components/adsShowcase';
 
 import logo from '../../assets/images/logo.png';
 import commonStyles from '../../styles/commonStyles';
+import { createDistributorAccount } from '../../database/methods';
 
-class LoginScreen extends Component {
+class RegisterScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      isLoading: false,
+      confirmPassword: '',
     };
 
     this.handleLoginButtonPress = this.handleLoginButtonPress.bind(this);
-    this.handleRegisterButtonPress = this.handleRegisterButtonPress.bind(this);
     this.handleEmailInput = this.handleEmailInput.bind(this);
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
+    this.handleRegisterButonPress = this.handleRegisterButonPress.bind(this);
+    this.handleConfirmPasswordInput = this.handleConfirmPasswordInput.bind(
+      this,
+    );
   }
 
   handleLoginButtonPress() {
-    const { email, password } = this.state;
-    this.setState({
-      isLoading: true,
-    });
-    auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch(() => {
-        Alert.alert('Invalid Login', 'Invalid Login');
-      })
-      .finally(() => {
-        this.setState({
-          isLoading: false,
-        });
-      });
-  }
-
-  handleRegisterButtonPress() {
-    this.props.navigation.navigate('Register');
+    this.props.navigation.navigate('Login');
   }
 
   handleEmailInput(val) {
@@ -63,9 +50,33 @@ class LoginScreen extends Component {
       password: val,
     });
   }
+  handleConfirmPasswordInput(val) {
+    this.setState({
+      confirmPassword: val,
+    });
+  }
+
+  handleRegisterButonPress() {
+    const { password, confirmPassword, email } = this.state;
+
+    if (password !== confirmPassword) {
+      Alert.alert(
+        'Password Mismatch',
+        'The confirm password does not match the password',
+      );
+      return;
+    } else {
+      createDistributorAccount('', email, '', '', password).catch(() => {
+        Alert.alert(
+          'Problem creating account',
+          'There was a problem creating an account. Please check your email',
+        );
+      });
+    }
+  }
 
   render() {
-    const { email, password, isLoading } = this.state;
+    const { email, password, isLoading, confirmPassword } = this.state;
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
         <Loading isLoading={isLoading} />
@@ -93,9 +104,17 @@ class LoginScreen extends Component {
             value={password}
             onChangeText={this.handlePasswordInput}
           />
-          <Button title="Login" onPress={this.handleLoginButtonPress} />
+          <TextInput
+            style={styles.textInput}
+            placeholder="confirm password"
+            placeholderTextColor="gray"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={this.handleConfirmPasswordInput}
+          />
+          <Button title="Register" onPress={this.handleRegisterButonPress} />
           <View style={styles.horizontalDivider} />
-          <Button title="Register" onPress={this.handleRegisterButtonPress} />
+          <Button title="Login" onPress={this.handleLoginButtonPress} />
         </View>
       </SafeAreaView>
     );
@@ -123,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
