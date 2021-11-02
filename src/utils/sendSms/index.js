@@ -1,13 +1,19 @@
 var axios = require('axios');
 
-export const serviceAlert = (customerName, customerMobileNumber, dueDate) => {
+export const sendWelcomeMessage = (
+  brandName,
+  distName,
+  custId,
+  distNumber,
+  customerMobileNumber,
+) => {
   const axioxConfig = {
     method: 'post',
     params: {
       apiKey: 'NmQ3ODcxNjM0ZDY5NjU3MDM5NjU2ZDU0NDQ0YjUwMzU=', //Text local api key
       sender: 'SORYAF',
       numbers: `91${customerMobileNumber}`,
-      message: `Hello ${customerName}, Thanks for your visit # ${dueDate}. Download your estimate here ${dueDate}. Thank you, SORYASTEELS.COM`,
+      message: `Hello customer, Thanks for purchasing ${brandName} from ${distName}. Your customer Id is ${custId}For further details please call ${distNumber}. HYDROCARE`,
     },
     url: 'https://api.textlocal.in/send/',
   };

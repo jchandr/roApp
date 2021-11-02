@@ -34,6 +34,9 @@ class LoginScreen extends Component {
 
   handleLoginButtonPress() {
     const { email, password } = this.state;
+    if (email.trim() === '' || password.length === 0) {
+      return;
+    }
     this.setState({
       isLoading: true,
     });

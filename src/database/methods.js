@@ -1,5 +1,6 @@
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
+import { sendWelcomeMessage } from '../utils/sendSms';
 
 const generatePassword = () => {
   var length = 8,
@@ -191,7 +192,7 @@ export const createCustomerRecord = (uid, data) => {
               data.installationDate,
               snap.key,
             );
-
+            // sendWelcomeMessage(data.brandName, data.)
             resolve();
             database()
               .ref(`users/distributors/${currentUser}/detail`)

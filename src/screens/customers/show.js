@@ -13,7 +13,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AuthContext from '../../auth/index';
 
 import { getCustomerById, updateCustomerInfo } from '../../database/methods';
-import { serviceAlert } from '../../utils/sendSms/index';
 import commonStyles from '../../styles/commonStyles';
 
 class ContactShow extends Component {

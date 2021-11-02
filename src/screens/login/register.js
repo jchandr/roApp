@@ -8,6 +8,7 @@ import {
   Button,
   StyleSheet,
   Alert,
+  ScrollView,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
@@ -23,17 +24,21 @@ class RegisterScreen extends Component {
     super(props);
     this.state = {
       email: '',
+      name: '',
+      number: '',
       password: '',
       confirmPassword: '',
+      isLoading: false,
     };
 
     this.handleLoginButtonPress = this.handleLoginButtonPress.bind(this);
     this.handleEmailInput = this.handleEmailInput.bind(this);
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
     this.handleRegisterButonPress = this.handleRegisterButonPress.bind(this);
-    this.handleConfirmPasswordInput = this.handleConfirmPasswordInput.bind(
-      this,
-    );
+    this.handleConfirmPasswordInput =
+      this.handleConfirmPasswordInput.bind(this);
+    this.handleNameInput = this.handleNameInput.bind(this);
+    this.handlePhoneNumberInput = this.handlePhoneNumberInput.bind(this);
   }
 
   handleLoginButtonPress() {
@@ -56,9 +61,20 @@ class RegisterScreen extends Component {
     });
   }
 
+  handlePhoneNumberInput(val) {
+    this.setState({
+      number: val,
+    });
+  }
+
+  handleNameInput(val) {
+    this.setState({
+      name: val,
+    });
+  }
+
   handleRegisterButonPress() {
     const { password, confirmPassword, email } = this.state;
-
     if (password !== confirmPassword) {
       Alert.alert(
         'Password Mismatch',
@@ -66,35 +82,63 @@ class RegisterScreen extends Component {
       );
       return;
     } else {
-      createDistributorAccount('', email, '', '', password).catch(() => {
-        Alert.alert(
-          'Problem creating account',
-          'There was a problem creating an account. Please check your email',
-        );
+      if (email.trim() === '') {
+        return;
+      }
+      this.setState({
+        isLoading: true,
       });
+      createDistributorAccount('', email, '', '', password)
+        .catch(() => {
+          Alert.alert(
+            'Problem creating account',
+            'There was a problem creating an account. Please check your email',
+          );
+        })
+        .finally(() => {
+          this.setState({
+            isLoading: false,
+          });
+        });
     }
   }
 
   render() {
-    const { email, password, isLoading, confirmPassword } = this.state;
+    const { email, password, isLoading, confirmPassword, name, number } =
+      this.state;
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
         <Loading isLoading={isLoading} />
         <View>
           <AdsShowcase />
         </View>
-        <View style={{ flex: 4 }}>
+        <View style={{ height: 150 }}>
           <View style={[styles.container, styles.logoWrapper]}>
             <Image resizeMode="contain" style={styles.logo} source={logo} />
           </View>
         </View>
-        <View style={[{ flex: 5 }, styles.content]}>
+        <ScrollView style={[{ paddingHorizontal: 20, marginBottom: 10 }]}>
           <TextInput
             style={styles.textInput}
             placeholder="email"
             placeholderTextColor="gray"
             value={email}
             onChangeText={this.handleEmailInput}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="name"
+            placeholderTextColor="gray"
+            value={name}
+            onChangeText={this.handleNameInput}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="number"
+            placeholderTextColor="gray"
+            keyboardType="number-pad"
+            value={number}
+            onChangeText={this.handlePhoneNumberInput}
           />
           <TextInput
             style={styles.textInput}
@@ -115,7 +159,7 @@ class RegisterScreen extends Component {
           <Button title="Register" onPress={this.handleRegisterButonPress} />
           <View style={styles.horizontalDivider} />
           <Button title="Login" onPress={this.handleLoginButtonPress} />
-        </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -128,7 +172,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    width: 300,
+    width: 250,
     alignSelf: 'center',
   },
   content: {
