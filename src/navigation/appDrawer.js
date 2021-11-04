@@ -11,6 +11,12 @@ const AppDrawerNavigator = ({ isAdmin }) => {
   if (isAdmin) {
     return (
       <AppDrawer.Navigator
+        screenOptions={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#fecdbe',
+          },
+        }}
         initialRouteName="Home"
         overlayColor="grey"
         activeTintColor="#ffcdbe"

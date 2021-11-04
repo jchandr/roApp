@@ -20,6 +20,10 @@ const commonStyles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  blockButtonText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
 };
 
 export default commonStyles;

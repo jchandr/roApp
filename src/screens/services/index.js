@@ -41,8 +41,8 @@ class TodaysServices extends Component {
     this.setDatatableData();
   }
 
-  handleDataTableItemClick(id) {
-    return;
+  handleDataTableItemClick(id, data) {
+    this.props.navigation.navigate('Show Service', { id: id, data: data });
   }
 
   setDatatableData() {
@@ -105,7 +105,9 @@ class TodaysServices extends Component {
         <View style={styles.flexContainer}>
           <DataTable style={styles.flexContainer}>
             <DataTable.Header>
-              <DataTable.Title style={styles.nameField}>Name</DataTable.Title>
+              <DataTable.Title style={styles.nameField}>
+                Current Service Month
+              </DataTable.Title>
               <DataTable.Title>Service Status</DataTable.Title>
               <DataTable.Title>Due Date</DataTable.Title>
             </DataTable.Header>
@@ -121,15 +123,17 @@ class TodaysServices extends Component {
                 return (
                   <DataTable.Row
                     key={i}
-                    onPress={() => this.handleDataTableItemClick(data.id)}>
+                    onPress={() =>
+                      this.handleDataTableItemClick(data.id, data)
+                    }>
                     <DataTable.Cell style={styles.nameField}>
                       {data.currentServiceMonthCount}
                     </DataTable.Cell>
                     <DataTable.Cell
                       style={
                         data.isClosed
-                          ? styles.serviceClosed
-                          : styles.serviceOpen
+                          ? styles.serviceClosedBackground
+                          : styles.serviceOpenBackground
                       }>
                       {data.isClosed ? 'Closed' : 'Open'}
                     </DataTable.Cell>
@@ -155,7 +159,7 @@ class TodaysServices extends Component {
 const styles = StyleSheet.create({
   ...commonstyles,
   nameField: {
-    flex: 2,
+    flex: 1,
   },
   createCustomerFab: {
     width: 50,
@@ -169,12 +173,11 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
   },
-  serviceOpen: {
-    // backgroundColor: 'red',
-    // borderRadius: 4,
+  serviceOpenBackground: {
+    backgroundColor: '#ff6b75',
   },
-  serviceClosed: {
-    // backgroundColor: 'green',
+  serviceClosedBackground: {
+    backgroundColor: '#a8ffbf',
   },
 });
 

@@ -203,3 +203,16 @@ export const createCustomerRecord = (uid, data) => {
       });
   });
 };
+
+export const getTotalDistributorsCount = () => {
+  return new Promise((resolve, reject) => {
+    database()
+      .ref('users/distributors/detail')
+      .on('value', snapshot => {
+        if (snapshot === null) {
+          return reject();
+        }
+        return resolve(snapshot.val());
+      });
+  });
+};
