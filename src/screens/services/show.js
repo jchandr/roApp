@@ -15,6 +15,7 @@ import AuthContext from '../../auth/index';
 import { getCustomerById } from '../../database/methods';
 
 import commonstyles from '../../styles/commonStyles';
+import { sendOtp } from '../../utils/sendSms';
 
 class ShowService extends Component {
   static contextType = AuthContext;
@@ -35,6 +36,8 @@ class ShowService extends Component {
       this.handleCloseServiceButtonPress.bind(this);
     this.handleConfirmOtpAndCloseService =
       this.handleConfirmOtpAndCloseService.bind(this);
+    this.handleResendOtpButtonPress =
+      this.handleResendOtpButtonPress.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +68,10 @@ class ShowService extends Component {
     console.log(completionOtp);
   }
 
+  handleResendOtpButtonPress() {
+    sendOtp(1234);
+  }
+
   render() {
     const { currentServiceData, customerData, isCloseServiceModalVisible } =
       this.state;
@@ -93,7 +100,9 @@ class ShowService extends Component {
                   Confirm OTP & Close Service
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.resendOtp}>
+              <TouchableOpacity
+                style={styles.resendOtp}
+                onPress={this.handleResendOtpButtonPress}>
                 <Text style={styles.blockButtonText}>Resend OTP</Text>
               </TouchableOpacity>
             </Modal>

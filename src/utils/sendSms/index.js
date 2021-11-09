@@ -24,3 +24,27 @@ export const sendWelcomeMessage = (
       .catch(x => reject(x.data));
   });
 };
+
+export const sendOtp = (
+  otp,
+  customerMobileNumber = '9940333441',
+  distNumber = '123',
+  customerName = 'sadfasf',
+) => {
+  const axioxConfig = {
+    method: 'post',
+    params: {
+      apiKey: 'NmQ3ODcxNjM0ZDY5NjU3MDM5NjU2ZDU0NDQ0YjUwMzU=', //Text local api key
+      sender: 'SRVSRO',
+      numbers: `91${customerMobileNumber}`,
+      message: `Hello ${customerName}, Your monthly service OTP is generated. Your OTP is ${otp}. Please do not share the OTP to anyone. For further details please call ${distNumber}. HYDROCARE`,
+    },
+    url: 'https://api.textlocal.in/send/',
+  };
+
+  return new Promise((resolve, reject) => {
+    axios(axioxConfig)
+      .then(x => resolve(x.data))
+      .catch(x => reject(x.data));
+  });
+};
