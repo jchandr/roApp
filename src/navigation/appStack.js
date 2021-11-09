@@ -11,6 +11,7 @@ import ContactCreate from '../screens/customers/create';
 import DistributorCreate from '../screens/distributors/create';
 import TodaysServices from '../screens/services';
 import ShowService from '../screens/services/show';
+import ClosedServices from '../screens/services/closed';
 
 class AppStackNavigator extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class AppStackNavigator extends Component {
           <AppStack.Screen name="Customer Index" component={CustomerIndex} />
           <AppStack.Screen name="Customer Create" component={ContactCreate} />
           <AppStack.Screen name="Todays Services" component={TodaysServices} />
+          <AppStack.Screen name="Closed Services" component={ClosedServices} />
           <AppStack.Screen name="Show Service" component={ShowService} />
           <AppStack.Screen
             name="Distributor Create"

@@ -20,7 +20,7 @@ class Home extends Component {
         },
         {
           label: 'Closed Services',
-          routeName: 'Customer Index',
+          routeName: 'Closed Services',
         },
       ],
     };

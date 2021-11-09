@@ -8,7 +8,8 @@ import {
   Text,
 } from 'react-native';
 import { TextInput, Button, Portal, Modal } from 'react-native-paper';
-import OTPInputView from '@twotalltotems/react-native-otp-input';
+
+import OtpInput from '../../components/otpInput';
 
 import AuthContext from '../../auth/index';
 import { getCustomerById } from '../../database/methods';
@@ -25,14 +26,15 @@ class ShowService extends Component {
       currentServiceData: props.route.params.data,
       isCloseServiceModalVisible: false,
       customerData: {},
+      completionOtp: '',
     };
 
-    this.handleCloseServiceModalHide = this.handleCloseServiceModalHide.bind(
-      this,
-    );
-    this.handleCloseServiceButtonPress = this.handleCloseServiceButtonPress.bind(
-      this,
-    );
+    this.handleCloseServiceModalHide =
+      this.handleCloseServiceModalHide.bind(this);
+    this.handleCloseServiceButtonPress =
+      this.handleCloseServiceButtonPress.bind(this);
+    this.handleConfirmOtpAndCloseService =
+      this.handleConfirmOtpAndCloseService.bind(this);
   }
 
   componentDidMount() {
@@ -57,12 +59,16 @@ class ShowService extends Component {
     });
   }
 
+  handleConfirmOtpAndCloseService() {
+    const { completionOtp } = this.state;
+
+    console.log(completionOtp);
+  }
+
   render() {
-    const {
-      currentServiceData,
-      customerData,
-      isCloseServiceModalVisible,
-    } = this.state;
+    const { currentServiceData, customerData, isCloseServiceModalVisible } =
+      this.state;
+
     return (
       <SafeAreaView style={styles.flexContainer}>
         {!currentServiceData.isClosed && (
@@ -72,19 +78,17 @@ class ShowService extends Component {
               onDismiss={this.handleCloseServiceModalHide}
               contentContainerStyle={styles.modalContainerStyle}>
               <Text>Please Enter The Completion OTP Sent to Customer</Text>
-              <View>
-                <OTPInputView
-                  autoFocusOnLoad
-                  style={{ width: '80%', height: 100 }}
-                  codeInputFieldStyle={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                    fontSize: 22,
-                  }}
-                  pinCount={4}
-                />
-              </View>
-              <TouchableOpacity style={styles.confirmOtpAndClose}>
+              <OtpInput
+                onChange={otp => {
+                  this.setState({
+                    completionOtp: otp,
+                  });
+                }}
+                otpDigits={4}
+              />
+              <TouchableOpacity
+                style={styles.confirmOtpAndClose}
+                onPress={this.handleConfirmOtpAndCloseService}>
                 <Text style={styles.blockButtonText}>
                   Confirm OTP & Close Service
                 </Text>

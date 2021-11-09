@@ -6,7 +6,6 @@ import {
   RefreshControl,
   TouchableOpacity,
   StyleSheet,
-  Text,
 } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,7 +15,7 @@ import { getServices } from '../../database/methods';
 
 import commonstyles from '../../styles/commonStyles';
 
-class TodaysServices extends Component {
+class ClosedServices extends Component {
   static contextType = AuthContext;
 
   constructor(props) {
@@ -56,7 +55,7 @@ class TodaysServices extends Component {
       .then(val => {
         for (var [id, entry] of Object.entries(val)) {
           entry.id = id;
-          if (!entry.isClosed) {
+          if (entry.isClosed) {
             tempDataTableValues.push(entry);
           }
         }
@@ -182,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TodaysServices;
+export default ClosedServices;
