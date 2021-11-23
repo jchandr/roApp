@@ -109,32 +109,42 @@ class RegisterScreen extends Component {
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
         <Loading isLoading={isLoading} />
-        <View>
+        <View style={{}}>
           <AdsShowcase />
         </View>
-        <View style={{ height: 150 }}>
+        <View style={{ height: 100 }}>
           <View style={[styles.container, styles.logoWrapper]}>
             <Image resizeMode="contain" style={styles.logo} source={logo} />
           </View>
         </View>
         <ScrollView style={[{ paddingHorizontal: 20, marginBottom: 10 }]}>
+          <View style={{ flexDirection: 'row' }}>
+            <TextInput
+              style={[styles.textInput, { flex: 1 }]}
+              placeholder="email"
+              placeholderTextColor="gray"
+              value={email}
+              onChangeText={this.handleEmailInput}
+            />
+            <TextInput
+              style={[styles.textInput, { flex: 1 }]}
+              placeholder="name"
+              placeholderTextColor="gray"
+              value={name}
+              onChangeText={this.handleNameInput}
+            />
+          </View>
           <TextInput
             style={styles.textInput}
-            placeholder="email"
+            placeholder="mobile number"
             placeholderTextColor="gray"
-            value={email}
-            onChangeText={this.handleEmailInput}
+            keyboardType="number-pad"
+            value={number}
+            onChangeText={this.handlePhoneNumberInput}
           />
           <TextInput
             style={styles.textInput}
-            placeholder="name"
-            placeholderTextColor="gray"
-            value={name}
-            onChangeText={this.handleNameInput}
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder="number"
+            placeholder="GST Number"
             placeholderTextColor="gray"
             keyboardType="number-pad"
             value={number}
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    width: 250,
+    width: 150,
     alignSelf: 'center',
   },
   content: {
@@ -182,6 +192,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     color: 'black',
     paddingLeft: 10,
+    marginHorizontal: 2,
     marginBottom: 10,
   },
 });

@@ -23,7 +23,6 @@ class OtpInput extends Component {
 
   handleOtpDigitInput(index, val) {
     const { otp, inputRefs, numberOfOtpDigits } = this.state;
-    console.log(val);
     otp[index] = String(val);
     this.setState({
       otp: otp,

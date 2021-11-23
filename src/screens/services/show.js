@@ -12,7 +12,11 @@ import { TextInput, Button, Portal, Modal } from 'react-native-paper';
 import OtpInput from '../../components/otpInput';
 
 import AuthContext from '../../auth/index';
-import { getCustomerById } from '../../database/methods';
+import {
+  getCustomerById,
+  closeServiceBySatisfiedOtp,
+  getServiceById,
+} from '../../database/methods';
 
 import commonstyles from '../../styles/commonStyles';
 import { sendOtp } from '../../utils/sendSms';
@@ -42,7 +46,6 @@ class ShowService extends Component {
 
   componentDidMount() {
     const { currentServiceData } = this.state;
-    console.log(currentServiceData);
     getCustomerById(currentServiceData.customerDocId).then(d => {
       this.setState({
         customerData: d,
@@ -63,13 +66,39 @@ class ShowService extends Component {
   }
 
   handleConfirmOtpAndCloseService() {
-    const { completionOtp } = this.state;
-
-    console.log(completionOtp);
+    const { completionOtp, currentServiceData, currentServiceId } = this.state;
+    console.log('satisfied', currentServiceData.satisfiedOtp);
+    console.log('entered', completionOtp);
+    console.log(
+      Number(completionOtp) === Number(currentServiceData.satisfiedOtp),
+    );
+    if (Number(completionOtp) === Number(currentServiceData.satisfiedOtp)) {
+      this.setState({
+        isCloseServiceModalVisible: false,
+      });
+      closeServiceBySatisfiedOtp(currentServiceId).then(() => {
+        getServiceById(currentServiceId).then(d => {
+          this.setState({
+            currentServiceData: d,
+          });
+        });
+      });
+    } else {
+      console.log('invalid otp');
+    }
   }
 
   handleResendOtpButtonPress() {
-    sendOtp(1234);
+    const { currentServiceData, customerData } = this.state;
+    // the third argument dist number is default for now. will be changed later
+    sendOtp(
+      currentServiceData.satisfiedOtp,
+      customerData.mobile,
+      '9940333441',
+      customerData.name,
+    )
+      .then(x => console.log(x))
+      .catch(x => console.log(x));
   }
 
   render() {
@@ -131,11 +160,24 @@ class ShowService extends Component {
           <View style={[styles.container]}>
             <TextInput
               mode="outlined"
+              label="Mobile Number"
+              style={styles.textInput}
+              disabled
+              value={customerData.mobile}
+            />
+            <TextInput
+              mode="outlined"
+              label="Installation Date"
+              style={styles.textInput}
+              disabled
+              value={new Date(customerData.installationDate).toDateString()}
+            />
+          </View>
+          <View style={[styles.container]}>
+            <TextInput
+              mode="outlined"
               label="Service Due Date"
               style={styles.textInput}
-              onChangeText={text =>
-                this.handleTextInputChange(text, 'alkalineFilter')
-              }
               disabled
               value={new Date(currentServiceData.serviceDueDate).toDateString()}
             />

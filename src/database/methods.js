@@ -119,6 +119,18 @@ export const getCustomerById = id => {
   });
 };
 
+export const getServiceById = id => {
+  const currentUser = auth().currentUser.uid;
+
+  return new Promise((resolve, reject) => {
+    database()
+      .ref(`users/distributors/${currentUser}/services/${id}`)
+      .on('value', snapshot => {
+        return resolve(snapshot.val());
+      });
+  });
+};
+
 export const updateCustomerInfo = (documentId, data) => {
   const currentUser = auth().currentUser.uid;
   return new Promise(function (resolve, reject) {
@@ -213,6 +225,26 @@ export const getTotalDistributorsCount = () => {
           return reject();
         }
         return resolve(snapshot.val());
+      });
+  });
+};
+
+export const closeServiceBySatisfiedOtp = serviceId => {
+  const currentUser = auth().currentUser.uid;
+
+  return new Promise((resolve, reject) => {
+    database()
+      .ref(`users/distributors/${currentUser}/services/${serviceId}`)
+      .update({
+        isClosed: true,
+        closeType: 'otp-satisfied',
+        closedAt: database.ServerValue.TIMESTAMP,
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch(() => {
+        reject();
       });
   });
 };

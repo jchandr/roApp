@@ -27,21 +27,20 @@ export const sendWelcomeMessage = (
 
 export const sendOtp = (
   otp,
-  customerMobileNumber = '9940333441',
-  distNumber = '123',
-  customerName = 'sadfasf',
+  customerMobileNumber,
+  distNumber,
+  customerName,
 ) => {
   const axioxConfig = {
-    method: 'post',
+    method: 'GET',
     params: {
       apiKey: 'NmQ3ODcxNjM0ZDY5NjU3MDM5NjU2ZDU0NDQ0YjUwMzU=', //Text local api key
       sender: 'SRVSRO',
-      numbers: `91${customerMobileNumber}`,
-      message: `Hello ${customerName}, Your monthly service OTP is generated. Your OTP is ${otp}. Please do not share the OTP to anyone. For further details please call ${distNumber}. HYDROCARE`,
+      numbers: `${customerMobileNumber}`,
+      message: `Hello ${customerName}, Your monthly service OTP is generated.Your OTP is ${otp}. Please do not share the OTP to anyone. For further details please call ${distNumber}. HYDROCARE.`,
     },
     url: 'https://api.textlocal.in/send/',
   };
-
   return new Promise((resolve, reject) => {
     axios(axioxConfig)
       .then(x => resolve(x.data))

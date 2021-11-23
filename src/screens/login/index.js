@@ -72,10 +72,10 @@ class LoginScreen extends Component {
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
         <Loading isLoading={isLoading} />
-        <View>
+        <View style={{flex: 2}}>
           <AdsShowcase />
         </View>
-        <View style={{ flex: 4 }}>
+        <View style={{ height: 100}}>
           <View style={[styles.container, styles.logoWrapper]}>
             <Image resizeMode="contain" style={styles.logo} source={logo} />
           </View>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    width: 300,
+    width: 150,
     alignSelf: 'center',
   },
   content: {
