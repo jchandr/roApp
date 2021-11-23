@@ -204,8 +204,7 @@ export const createCustomerRecord = (uid, data) => {
               data.installationDate,
               snap.key,
             );
-            // sendWelcomeMessage(data.brandName, data.)
-            resolve();
+            resolve(newData);
             database()
               .ref(`users/distributors/${currentUser}/detail`)
               .set({

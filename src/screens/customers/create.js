@@ -14,6 +14,7 @@ import AuthContext from '../../auth/index';
 
 import { createCustomerRecord } from '../../database/methods';
 import commonStyles from '../../styles/commonStyles';
+import { sendWelcomeMessage } from '../../utils/sendSms';
 
 class ContactCreate extends Component {
   static contextType = AuthContext;
@@ -122,8 +123,16 @@ class ContactCreate extends Component {
     }
 
     const userId = this.context.uid;
-    createCustomerRecord(userId, customerData).then(() => {
+    createCustomerRecord(userId, customerData).then(d => {
       this.props.navigation.replace('Customer Index');
+
+      sendWelcomeMessage(
+        d.brandName,
+        'HYDROCARE',
+        d.customerId,
+        '9940333441',
+        d.mobile,
+      );
     });
   }
 
@@ -247,6 +256,7 @@ class ContactCreate extends Component {
               mode="outlined"
               label="Mobile"
               keyboardType="number-pad"
+              error={customerData.mobile === '' ? true : false}
               style={styles.textInput}
               onChangeText={text => this.handleTextInputChange(text, 'mobile')}
               value={customerData.mobile}
@@ -254,6 +264,7 @@ class ContactCreate extends Component {
             <TextInput
               mode="outlined"
               label="Address"
+              error={customerData.address === '' ? true : false}
               style={styles.textInput}
               value={customerData.address}
               onChangeText={text => this.handleTextInputChange(text, 'address')}

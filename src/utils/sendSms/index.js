@@ -8,12 +8,12 @@ export const sendWelcomeMessage = (
   customerMobileNumber,
 ) => {
   const axioxConfig = {
-    method: 'post',
+    method: 'GET',
     params: {
       apiKey: 'NmQ3ODcxNjM0ZDY5NjU3MDM5NjU2ZDU0NDQ0YjUwMzU=', //Text local api key
-      sender: 'SORYAF',
-      numbers: `91${customerMobileNumber}`,
-      message: `Hello customer, Thanks for purchasing ${brandName} from ${distName}. Your customer Id is ${custId}For further details please call ${distNumber}. HYDROCARE`,
+      sender: 'SRVSRO',
+      numbers: `${customerMobileNumber}`,
+      message: `Hello customer, Thanks for purchasing ${brandName} from ${distName}. Your customer ID is ${custId}. For further details please call ${distNumber}.HYDROCARE.`,
     },
     url: 'https://api.textlocal.in/send/',
   };
