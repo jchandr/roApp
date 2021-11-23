@@ -67,11 +67,6 @@ class ShowService extends Component {
 
   handleConfirmOtpAndCloseService() {
     const { completionOtp, currentServiceData, currentServiceId } = this.state;
-    console.log('satisfied', currentServiceData.satisfiedOtp);
-    console.log('entered', completionOtp);
-    console.log(
-      Number(completionOtp) === Number(currentServiceData.satisfiedOtp),
-    );
     if (Number(completionOtp) === Number(currentServiceData.satisfiedOtp)) {
       this.setState({
         isCloseServiceModalVisible: false,
@@ -94,7 +89,7 @@ class ShowService extends Component {
     sendOtp(
       currentServiceData.satisfiedOtp,
       customerData.mobile,
-      '9940333441',
+      '9940333442',
       customerData.name,
     )
       .then(x => console.log(x))

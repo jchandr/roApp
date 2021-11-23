@@ -35,7 +35,9 @@ class AppStackNavigator extends Component {
     const AppStack = createStackNavigator();
     return (
       <NavigationContainer>
-        <AppStack.Navigator headerMode="none">
+        <AppStack.Navigator
+          screenOptions={{ animationEnabled: false }}
+          headerMode="none">
           <AppStack.Screen
             name="Drawer"
             children={() => (
