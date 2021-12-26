@@ -10,7 +10,6 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
 
 import Loading from '../../components/loading/index';
 import AdsShowcase from '../../components/adsShowcase';
@@ -18,6 +17,7 @@ import AdsShowcase from '../../components/adsShowcase';
 import logo from '../../assets/images/logo.png';
 import commonStyles from '../../styles/commonStyles';
 import { createDistributorAccount } from '../../database/methods';
+import gstCheckSumValidation from '../../utils/gstCheckSumValidation';
 
 class RegisterScreen extends Component {
   constructor(props) {
@@ -29,6 +29,7 @@ class RegisterScreen extends Component {
       password: '',
       confirmPassword: '',
       isLoading: false,
+      gstNumber: '',
     };
 
     this.handleLoginButtonPress = this.handleLoginButtonPress.bind(this);
@@ -39,6 +40,7 @@ class RegisterScreen extends Component {
       this.handleConfirmPasswordInput.bind(this);
     this.handleNameInput = this.handleNameInput.bind(this);
     this.handlePhoneNumberInput = this.handlePhoneNumberInput.bind(this);
+    this.handleGstNumberInput = this.handleGstNumberInput.bind(this);
   }
 
   handleLoginButtonPress() {
@@ -73,39 +75,63 @@ class RegisterScreen extends Component {
     });
   }
 
+  handleGstNumberInput(val) {
+    this.setState({
+      gstNumber: val,
+    });
+  }
+
   handleRegisterButonPress() {
-    const { password, confirmPassword, email } = this.state;
-    if (password !== confirmPassword) {
-      Alert.alert(
-        'Password Mismatch',
-        'The confirm password does not match the password',
-      );
+    const { password, confirmPassword, email, gstNumber } = this.state;
+
+    var trimmedGst = gstNumber.trim();
+    const isGstValid = gstCheckSumValidation(trimmedGst);
+
+    if (trimmedGst !== '' && !isGstValid) {
+      Alert.alert('Invalid GST', 'The GST entered is invalid');
       return;
-    } else {
-      if (email.trim() === '') {
+    }
+
+    if (isGstValid) {
+      if (password !== confirmPassword) {
+        Alert.alert(
+          'Password Mismatch',
+          'The confirm password does not match the password',
+        );
         return;
-      }
-      this.setState({
-        isLoading: true,
-      });
-      createDistributorAccount('', email, '', '', password)
-        .catch(() => {
-          Alert.alert(
-            'Problem creating account',
-            'There was a problem creating an account. Please check your email',
-          );
-        })
-        .finally(() => {
-          this.setState({
-            isLoading: false,
-          });
+      } else {
+        if (email.trim() === '') {
+          return;
+        }
+        this.setState({
+          isLoading: true,
         });
+        createDistributorAccount('', email, '', '', password)
+          .catch(() => {
+            Alert.alert(
+              'Problem creating account',
+              'There was a problem creating an account. Please check your email',
+            );
+          })
+          .finally(() => {
+            this.setState({
+              isLoading: false,
+            });
+          });
+      }
     }
   }
 
   render() {
-    const { email, password, isLoading, confirmPassword, name, number } =
-      this.state;
+    const {
+      email,
+      password,
+      isLoading,
+      confirmPassword,
+      name,
+      number,
+      gstNumber,
+    } = this.state;
     return (
       <SafeAreaView style={[styles.container, styles.flexColumn]}>
         <Loading isLoading={isLoading} />
@@ -146,9 +172,8 @@ class RegisterScreen extends Component {
             style={styles.textInput}
             placeholder="GST Number"
             placeholderTextColor="gray"
-            keyboardType="number-pad"
-            value={number}
-            onChangeText={this.handlePhoneNumberInput}
+            value={gstNumber}
+            onChangeText={this.handleGstNumberInput}
           />
           <TextInput
             style={styles.textInput}

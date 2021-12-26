@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Text, View, StyleSheet, ScrollView } from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { Button } from 'react-native-paper';
 import AuthContext from '../../auth/index';
 import { getTotalDistributorsCount } from '../../database/methods';
+import colors from '../../styles/colors';
+import commonStyles from '../../styles/commonStyles';
 
 class Dashboard extends Component {
   static contextType = AuthContext;
@@ -12,9 +21,8 @@ class Dashboard extends Component {
     this.state = {
       totalDistributorsCount: 0,
     };
-    this.handleDistributorTilePress = this.handleDistributorTilePress.bind(
-      this,
-    );
+    this.handleDistributorTilePress =
+      this.handleDistributorTilePress.bind(this);
   }
 
   componentDidMount() {
@@ -36,16 +44,21 @@ class Dashboard extends Component {
       <SafeAreaView>
         <ScrollView>
           <View style={styles.tileGroup}>
-            <Button
-              mode="contained"
-              contentStyle={styles.tile}
-              onPress={() => this.handleDistributorTilePress()}
-              style={styles.tile}>
-              <Text>Distributors</Text>
-            </Button>
+            <TouchableOpacity
+              style={[styles.tile, styles.tileButton]}
+              onPress={() => this.handleDistributorTilePress()}>
+              <Text style={styles.bold}>Create Distributor</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.tile, styles.tileButton]}
+              onPress={() => this.handleDistributorTilePress()}>
+              <Text style={styles.bold}>List Distributors</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.tileGroup}>
             <View style={styles.tile}>
               <Text>Total Distributors</Text>
-              <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+              <Text style={styles.blockButtonText}>
                 {totalDistributorsCount}
               </Text>
             </View>
@@ -57,6 +70,7 @@ class Dashboard extends Component {
 }
 
 const styles = StyleSheet.create({
+  ...commonStyles,
   tile: {
     margin: 10,
     flex: 1,
@@ -64,6 +78,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 0,
+  },
+  tileButton: {
+    backgroundColor: colors.SECONDARY,
+    borderRadius: 5,
   },
   tileGroup: {
     display: 'flex',

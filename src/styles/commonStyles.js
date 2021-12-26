@@ -24,6 +24,9 @@ const commonStyles = {
     fontSize: 22,
     fontWeight: 'bold',
   },
+  bold: {
+    fontWeight: 'bold',
+  },
 };
 
 export default commonStyles;
